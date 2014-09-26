@@ -13,6 +13,7 @@ class DatePickerPrivate {
     Q_DECLARE_PUBLIC(DatePicker)
 
     DatePicker *q_ptr;
+    bool is_editable;
     DatePickerType picker_type;
     QDate date_begin;
     QDate date_end;
@@ -20,7 +21,9 @@ class DatePickerPrivate {
     DatePickerPopup *popup;
     DatePickerAbstractFormater *formater;
 private:
-    DatePickerPrivate(DatePicker *q) : q_ptr(q), date_label(0), popup(0), formater(0) {}
+    DatePickerPrivate(DatePicker *q) :
+        q_ptr(q), is_editable(true), date_label(0), popup(0), formater(0) {}
+
     ~DatePickerPrivate()
     {
         delete popup;
@@ -78,6 +81,12 @@ QWidget *DatePicker::popup() const
     return d->popup;
 }
 
+bool DatePicker::isEditable() const
+{
+    Q_D(const DatePicker);
+    return d->is_editable;
+}
+
 DatePickerAbstractFormater *DatePicker::formater() const
 {
     Q_D(const DatePicker);
@@ -87,6 +96,12 @@ DatePickerAbstractFormater *DatePicker::formater() const
 void DatePicker::setFormater(DatePickerAbstractFormater *formater)
 {
     Q_D(DatePicker);
+
+    if (d->formater != 0) {
+        delete d->formater;
+        d->formater = 0;
+    }
+
     d->formater = formater;
 
     if (d->formater != 0) {
@@ -119,6 +134,13 @@ QDate DatePicker::selectedPeriodEnd() const
 {
     Q_D(const DatePicker);
     return d->date_end;
+}
+
+void DatePicker::setEditable(bool on)
+{
+    Q_D(DatePicker);
+    d->is_editable = on;
+    d->date_label->setCursor(on ? Qt::PointingHandCursor : Qt::ArrowCursor);
 }
 
 void DatePicker::setAllowedPickerTypes(DatePickerTypes picker_types)
@@ -164,6 +186,9 @@ void DatePicker::setPeriod(const QDate &begin, const QDate &end)
 bool DatePicker::eventFilter(QObject *object, QEvent *event)
 {
     Q_D(DatePicker);
+
+    if (!d->is_editable)
+        return false;
 
     if ((object == d->date_label) && (event->type() == QEvent::MouseButtonRelease)) {
         QMouseEvent *mouse_event = dynamic_cast<QMouseEvent *>(event);

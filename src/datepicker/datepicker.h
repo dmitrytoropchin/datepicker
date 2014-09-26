@@ -23,6 +23,8 @@ public:
     QLabel *label() const;
     QWidget *popup() const;
 
+    bool isEditable() const;
+
     DatePickerAbstractFormater *formater() const;
     void setFormater(DatePickerAbstractFormater *formater);
 
@@ -34,6 +36,7 @@ public:
 signals:
     void editingFinished();
 public slots:
+    void setEditable(bool on);
     void setAllowedPickerTypes(DatePickerTypes picker_types);
     void setDate(const QDate &date);
     void setPeriod(const QDate &begin, const QDate &end);
