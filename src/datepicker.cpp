@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "datepicker/datepickerpopup.h"
 #include "datepicker/datepickerabstractformater.h"
+#include "datepicker/datepickerhumanreadableformater.h"
 
 
 class DatePickerPrivate {
@@ -20,11 +21,19 @@ class DatePickerPrivate {
     DatePickerAbstractFormater *formater;
 private:
     DatePickerPrivate(DatePicker *q) : q_ptr(q), date_label(0), popup(0), formater(0) {}
-    ~DatePickerPrivate() { delete popup; }
+    ~DatePickerPrivate()
+    {
+        delete popup;
+
+        if (formater != 0)
+            delete formater;
+    }
 
     void initUi()
     {
         Q_Q(DatePicker);
+
+        formater = new DatePickerHumanReadableFormater();
 
         date_label = new QLabel(q);
         date_label->installEventFilter(q);
