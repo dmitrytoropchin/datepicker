@@ -27,7 +27,8 @@ HEADERS += \
     datepicker/datepickercalendaryearview.h \
     datepicker/datepickercalendardecadeview.h \
     datepicker/datepickerabstractformater.h \
-    datepicker/datepickerstandardformater.h
+    datepicker/datepickerstandardformater.h \
+    datepicker/datepickerhumanreadableformater.h
 
 SOURCES += \
     datepicker_common.cpp \
@@ -40,7 +41,8 @@ SOURCES += \
     datepickercalendaryearview.cpp \
     datepickercalendardecadeview.cpp \
     datepickerabstractformater.cpp \
-    datepickerstandardformater.cpp
+    datepickerstandardformater.cpp \
+    datepickerhumanreadableformater.cpp
 
 RESOURCES = \
     datepicker_resources.qrc

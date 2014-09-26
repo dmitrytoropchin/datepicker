@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <datepicker/datepicker.h>
-#include <datepicker/datepickerstandardformater.h>
+#include <datepicker/datepickerhumanreadableformater.h>
 
 
 int main(int argc, char *argv[])
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     init_datepicker(&app);
 
-    DatePickerStandardFormater formater;
+    DatePickerHumanReadableFormater formater;
 
     DatePicker picker;
     picker.setAllowedPickerTypes(PeriodType | DayType);
