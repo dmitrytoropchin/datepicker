@@ -1,0 +1,7 @@
+*.pro.user*
+Makefile
+Makefile.*
+lib/*
+src/.build/*
+example/.build/*
+example/datepicker
