@@ -61,17 +61,15 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
     }
     else {
         if (date.year() == current_date.year()) {
-            human_readable_str =
-                    QString("%1 %2")
-                    .arg(date.day())
-                    .arg(d->month_name.value(date.month()));
+            human_readable_str = QString("%1 %2")
+                                 .arg(date.day())
+                                 .arg(d->month_name.value(date.month()));
         }
         else {
-            human_readable_str =
-                    QString("%1 %2 %3")
-                    .arg(date.day())
-                    .arg(d->month_name.value(date.month()))
-                    .arg(date.year());
+            human_readable_str = QObject::tr("%1 %2 %3 year")
+                                 .arg(date.day())
+                                 .arg(d->month_name.value(date.month()))
+                                 .arg(date.year());
         }
     }
 
@@ -80,8 +78,41 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
 
 QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate &end) const
 {
-    QString human_readable_begin_str = begin.toString("d MMMM yyyy");
-    QString human_readable_end_str = end.toString("d MMMM yyyy");
+    Q_D(const DatePickerHumanReadableFormater);
 
-    return QString("%1 - %2").arg(human_readable_begin_str).arg(human_readable_end_str);
+    QString human_readable_begin_str;
+    QString human_readable_end_str;
+
+    if (begin.year() == end.year()) {
+        if (begin.month() == end.month()) {
+            human_readable_begin_str = begin.toString("d");
+        }
+        else {
+            human_readable_begin_str = QString("%1 %2")
+                                       .arg(begin.day())
+                                       .arg(d->month_name.value(begin.month()));
+        }
+    }
+    else {
+        human_readable_begin_str = QObject::tr("%1 %2 %3 year")
+                                   .arg(begin.day())
+                                   .arg(d->month_name.value(begin.month()))
+                                   .arg(begin.year());
+    }
+
+    QDate current_date = QDate::currentDate();
+
+    if (end.year() == current_date.year()) {
+        human_readable_end_str = QString("%1 %2")
+                                 .arg(end.day())
+                                 .arg(d->month_name.value(end.month()));
+    }
+    else {
+        human_readable_end_str = QObject::tr("%1 %2 %3 year")
+                                 .arg(end.day())
+                                 .arg(d->month_name.value(end.month()))
+                                 .arg(end.year());
+    }
+
+    return QObject::tr("from %1 to %2").arg(human_readable_begin_str).arg(human_readable_end_str);
 }

@@ -94,5 +94,17 @@
         <source>tomorrow</source>
         <translation>завтра</translation>
     </message>
+    <message>
+        <location filename="datepickerhumanreadableformater.cpp" line="69"/>
+        <location filename="datepickerhumanreadableformater.cpp" line="97"/>
+        <location filename="datepickerhumanreadableformater.cpp" line="111"/>
+        <source>%1 %2 %3 year</source>
+        <translation>%1 %2 %3 года</translation>
+    </message>
+    <message>
+        <location filename="datepickerhumanreadableformater.cpp" line="117"/>
+        <source>from %1 to %2</source>
+        <translation>с %1 по %2</translation>
+    </message>
 </context>
 </TS>
