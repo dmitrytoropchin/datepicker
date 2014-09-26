@@ -8,7 +8,7 @@ void init_datepicker(QApplication *app)
 {
     Q_INIT_RESOURCE(datepicker_resources);
 
-    QTranslator *datepicker_translator = new QTranslator();
+    QTranslator *datepicker_translator = new QTranslator(app);
     if (!datepicker_translator->load(":/datepicker_translations/ru"))
         qDebug() << "failed to load datepicker lib translations";
 
