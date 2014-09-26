@@ -1,8 +1,4 @@
-BUILD_DIR   = .build
-MOC_DIR     = $$BUILD_DIR
-OBJECTS_DIR = $$BUILD_DIR
-RCC_DIR     = $$BUILD_DIR
-UI_DIR      = $$BUILD_DIR
+include(../datepicker.pri)
 
 QT = core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

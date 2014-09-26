@@ -1,8 +1,4 @@
-BUILD_DIR   = .build
-MOC_DIR     = $$BUILD_DIR
-OBJECTS_DIR = $$BUILD_DIR
-RCC_DIR     = $$BUILD_DIR
-UI_DIR      = $$BUILD_DIR
+include(../datepicker.pri)
 
 QT = core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -17,8 +13,8 @@ CODECFORSRC = UTF-8
 DEFINES += DATEPICKER_LIBRARY
 
 HEADERS += \
-    datepicker/datepicker.h \
     datepicker/datepicker_common.h \
+    datepicker/datepicker.h \
     datepicker/datepickerpopupfooter.h \
     datepicker/datepickerpopup.h \
     datepicker/datepickercalendar.h \
@@ -50,3 +46,13 @@ RESOURCES = \
 TRANSLATIONS = \
     datepicker_ru.ts
 
+target.path = $$INSTALL_PREFIX/lib
+headers.path = $$INSTALL_PREFIX/include/datepicker
+headers.files = \
+    datepicker/datepicker_common.h \
+    datepicker/datepicker.h \
+    datepicker/datepickerabstractformater.h \
+    datepicker/datepickerstandardformater.h \
+    datepicker/datepickerhumanreadableformater.h
+
+INSTALLS = target headers
