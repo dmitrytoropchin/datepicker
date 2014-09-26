@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include "datepicker/datepickerpopup.h"
+#include "datepicker/datepickerabstractformater.h"
 
 
 class DatePickerPrivate {
@@ -16,8 +17,9 @@ class DatePickerPrivate {
     QDate date_end;
     QLabel *date_label;
     DatePickerPopup *popup;
+    DatePickerAbstractFormater *formater;
 private:
-    DatePickerPrivate(DatePicker *q) : q_ptr(q) {}
+    DatePickerPrivate(DatePicker *q) : q_ptr(q), date_label(0), popup(0), formater(0) {}
     ~DatePickerPrivate() { delete popup; }
 
     void initUi()
@@ -67,6 +69,25 @@ QWidget *DatePicker::popup() const
     return d->popup;
 }
 
+DatePickerAbstractFormater *DatePicker::formater() const
+{
+    Q_D(const DatePicker);
+    return d->formater;
+}
+
+void DatePicker::setFormater(DatePickerAbstractFormater *formater)
+{
+    Q_D(DatePicker);
+    d->formater = formater;
+
+    if (d->formater != 0) {
+        if (d->picker_type == DayType)
+            setDate(d->date_begin);
+        if (d->picker_type == PeriodType)
+            setPeriod(d->date_begin, d->date_end);
+    }
+}
+
 DatePickerType DatePicker::pickerType() const
 {
     Q_D(const DatePicker);
@@ -100,23 +121,35 @@ void DatePicker::setAllowedPickerTypes(DatePickerTypes picker_types)
 void DatePicker::setDate(const QDate &date)
 {
     Q_D(DatePicker);
+
     d->picker_type = DayType;
+
     d->date_begin = date;
     d->date_end = date;
-    d->date_label->setText(date.toString("d MMMM yyyy"));
+
     d->popup->setDate(date);
+
+    if (d->formater != 0)
+        d->date_label->setText(d->formater->format(date));
+    else
+        d->date_label->clear();
 }
 
 void DatePicker::setPeriod(const QDate &begin, const QDate &end)
 {
     Q_D(DatePicker);
+
     d->picker_type = PeriodType;
+
     d->date_begin = begin;
     d->date_end = end;
-    d->date_label->setText(QString("%1 - %2")
-                           .arg(begin.toString("d MMMM yyyy"))
-                           .arg(end.toString("d MMMM yyyy")));
+
     d->popup->setPeriod(begin, end);
+
+    if (d->formater != 0)
+        d->date_label->setText(d->formater->format(begin, end));
+    else
+        d->date_label->clear();
 }
 
 bool DatePicker::eventFilter(QObject *object, QEvent *event)

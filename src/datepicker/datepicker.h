@@ -7,6 +7,8 @@
 
 class QLabel;
 
+class DatePickerAbstractFormater;
+
 class DatePickerPrivate;
 
 class DATEPICKER_EXPORT DatePicker : public QWidget {
@@ -20,6 +22,9 @@ public:
 
     QLabel *label() const;
     QWidget *popup() const;
+
+    DatePickerAbstractFormater *formater() const;
+    void setFormater(DatePickerAbstractFormater *formater);
 
     DatePickerType pickerType() const;
 

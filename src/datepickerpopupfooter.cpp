@@ -42,7 +42,7 @@ class DatePickerPopupFooterPrivate {
 
         QFrame *top_line = new QFrame(q);
         top_line->setFrameStyle(QFrame::HLine | QFrame::Plain);
-        top_line->setStyleSheet("border-top: 2px dashed #777777");
+        top_line->setStyleSheet("border-top: 1px dashed #777777");
 
         main_layout->addWidget(top_line);
         main_layout->addLayout(buttons_layout);
