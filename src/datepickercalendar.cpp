@@ -139,18 +139,6 @@ void DatePickerCalendar::setView(DatePickerView picker_view)
     d->view_stack->setCurrentIndex(picker_view);
 }
 
-void DatePickerCalendar::setMinimumDate(const QDate &date)
-{
-    Q_D(DatePickerCalendar);
-    d->month_view->setMinimumDate(date);
-}
-
-void DatePickerCalendar::setMaximumDate(const QDate &date)
-{
-    Q_D(DatePickerCalendar);
-    d->month_view->setMaximumDate(date);
-}
-
 void DatePickerCalendar::setDate(const QDate &date)
 {
     Q_D(DatePickerCalendar);
