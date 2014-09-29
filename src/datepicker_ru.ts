@@ -32,7 +32,7 @@
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="18"/>
         <source>march</source>
-        <translation>матра</translation>
+        <translation>марта</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="19"/>
