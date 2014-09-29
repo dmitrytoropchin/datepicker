@@ -7,12 +7,13 @@ set(CMAKE_AUTOMOC ON)
 if(MSVC)
 	set(DATEPICKER_LIB_BUILD_LIBRARY_TYPE SHARED)
 else(MSVC)
-	set(DATEPICKER_LIB_BUILD_LIBRARY_TYPE SHARED CACHE STRING "datepicker library build type")
-	set_property(CACHE DATEPICKER_LIB_BUILD_LIBRARY_TYPE PROPERTY STRINGS SHARED STATIC)
+	set(DATEPICKER_LIB_BUILD_LIBRARY_TYPE STATIC CACHE STRING "datepicker library build type")
+	set_property(CACHE DATEPICKER_LIB_BUILD_LIBRARY_TYPE PROPERTY STRINGS STATIC SHARED)
 endif(MSVC)
 
 file(GLOB SRC source/*.cpp)
 file(GLOB HDR source/datepicker/*.h)
+
 
 if(USE_QT_5)
 	qt5_add_resources(RCC_FILE resource/datepicker_resources.qrc)
