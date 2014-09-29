@@ -1,111 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.0" language="en_US">
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="datepickerpopupfooter.cpp" line="26"/>
-        <source>day</source>
-        <translation>день</translation>
-    </message>
-    <message>
-        <location filename="datepickerpopupfooter.cpp" line="27"/>
-        <source>range</source>
-        <translation>период</translation>
-    </message>
     <message>
         <location filename="datepicker.cpp" line="52"/>
         <location filename="datepickerpopup.cpp" line="61"/>
         <source>Date Picker</source>
-        <translation>Выбор даты</translation>
+        <translation>Date Picker</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="16"/>
         <source>january</source>
-        <translation>января</translation>
+        <translation>january</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="17"/>
         <source>february</source>
-        <translation>февраля</translation>
+        <translation>february</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="18"/>
         <source>march</source>
-        <translation>матра</translation>
+        <translation>march</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="19"/>
         <source>april</source>
-        <translation>апреля</translation>
+        <translation>april</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="20"/>
         <source>may</source>
-        <translation>мая</translation>
+        <translation>may</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="21"/>
         <source>june</source>
-        <translation>июня</translation>
+        <translation>june</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="22"/>
         <source>july</source>
-        <translation>июля</translation>
+        <translation>july</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="23"/>
         <source>august</source>
-        <translation>августа</translation>
+        <translation>august</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="24"/>
         <source>september</source>
-        <translation>сентября</translation>
+        <translation>september</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="25"/>
         <source>october</source>
-        <translation>октября</translation>
+        <translation>october</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="26"/>
         <source>november</source>
-        <translation>ноября</translation>
+        <translation>november</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="27"/>
         <source>december</source>
-        <translation>декабря</translation>
+        <translation>december</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="54"/>
         <source>today</source>
-        <translation>сегодня</translation>
+        <translation>today</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="57"/>
         <source>yesterday</source>
-        <translation>вчера</translation>
+        <translation>yesterday</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="60"/>
         <source>tomorrow</source>
-        <translation>завтра</translation>
+        <translation>tomorrow</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="69"/>
         <location filename="datepickerhumanreadableformater.cpp" line="97"/>
         <location filename="datepickerhumanreadableformater.cpp" line="111"/>
         <source>%1 %2 %3</source>
-        <oldsource>%1 %2 %3 year</oldsource>
-        <translation>%1 %2 %3 года</translation>
+        <translation>%1 %2 %3</translation>
     </message>
     <message>
         <location filename="datepickerhumanreadableformater.cpp" line="117"/>
         <source>from %1 to %2</source>
-        <translation>с %1 по %2</translation>
+        <translation>from %1 to %2</translation>
+    </message>
+    <message>
+        <location filename="datepickerpopupfooter.cpp" line="26"/>
+        <source>day</source>
+        <translation>day</translation>
+    </message>
+    <message>
+        <location filename="datepickerpopupfooter.cpp" line="27"/>
+        <source>range</source>
+        <translation>range</translation>
     </message>
 </context>
 </TS>

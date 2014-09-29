@@ -66,7 +66,7 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
                                  .arg(d->month_name.value(date.month()));
         }
         else {
-            human_readable_str = QObject::tr("%1 %2 %3 year")
+            human_readable_str = QObject::tr("%1 %2 %3")
                                  .arg(date.day())
                                  .arg(d->month_name.value(date.month()))
                                  .arg(date.year());
@@ -94,7 +94,7 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
         }
     }
     else {
-        human_readable_begin_str = QObject::tr("%1 %2 %3 year")
+        human_readable_begin_str = QObject::tr("%1 %2 %3")
                                    .arg(begin.day())
                                    .arg(d->month_name.value(begin.month()))
                                    .arg(begin.year());
@@ -108,7 +108,7 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
                                  .arg(d->month_name.value(end.month()));
     }
     else {
-        human_readable_end_str = QObject::tr("%1 %2 %3 year")
+        human_readable_end_str = QObject::tr("%1 %2 %3")
                                  .arg(end.day())
                                  .arg(d->month_name.value(end.month()))
                                  .arg(end.year());

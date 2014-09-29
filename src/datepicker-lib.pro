@@ -44,6 +44,7 @@ RESOURCES = \
     datepicker_resources.qrc
 
 TRANSLATIONS = \
+    datepicker_en.ts \
     datepicker_ru.ts
 
 target.path = $$INSTALL_PREFIX/lib

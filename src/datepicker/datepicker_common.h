@@ -2,10 +2,11 @@
 #define DATEPICKER_COMMON_H
 
 #include <QtGlobal>
+#include <QLocale>
 
 class QApplication;
 
-void init_datepicker(QApplication *app);
+void init_datepicker(QApplication *app, const QLocale &locale = QLocale::system());
 
 
 enum DatePickerView {
