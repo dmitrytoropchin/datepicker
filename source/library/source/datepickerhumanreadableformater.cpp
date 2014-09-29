@@ -83,6 +83,8 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
     QString human_readable_begin_str;
     QString human_readable_end_str;
 
+    QDate current_date = QDate::currentDate();
+
     if (begin.year() == end.year()) {
         if (begin.month() == end.month()) {
             human_readable_begin_str = begin.toString("d");
@@ -100,9 +102,7 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
                                    .arg(begin.year());
     }
 
-    QDate current_date = QDate::currentDate();
-
-    if (end.year() == current_date.year()) {
+    if ((end.year() == current_date.year()) && (begin.year() == current_date.year())) {
         human_readable_end_str = QString("%1 %2")
                                  .arg(end.day())
                                  .arg(d->month_name.value(end.month()));
