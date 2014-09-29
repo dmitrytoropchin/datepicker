@@ -6,6 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TEMPLATE = lib
 VERSION = 0.1.0
 TARGET = $$DATEPICKER_LIBRARY_NAME
+CONFIG += static
 
 CODECFORSRC = UTF-8
 
