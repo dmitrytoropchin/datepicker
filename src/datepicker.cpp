@@ -22,7 +22,7 @@ class DatePickerPrivate {
     DatePickerAbstractFormater *formater;
 private:
     DatePickerPrivate(DatePicker *q) :
-        q_ptr(q), is_editable(true), date_label(0), popup(0), formater(0) {}
+        q_ptr(q), is_editable(true), picker_type(DayType), date_label(0), popup(0), formater(0) {}
 
     ~DatePickerPrivate()
     {
@@ -147,6 +147,25 @@ void DatePicker::setAllowedPickerTypes(DatePickerTypes picker_types)
 {
     Q_D(DatePicker);
     d->popup->setAllowedPickerTypes(picker_types);
+}
+
+void DatePicker::setMinimumDate(const QDate &date)
+{
+    Q_D(DatePicker);
+    d->popup->setMinimumDate(date);
+}
+
+void DatePicker::setMaximumDate(const QDate &date)
+{
+    Q_D(DatePicker);
+    d->popup->setMaximumDate(date);
+}
+
+void DatePicker::setRange(const QDate &minimum, const QDate &maximum)
+{
+    Q_D(DatePicker);
+    d->popup->setMinimumDate(minimum);
+    d->popup->setMaximumDate(maximum);
 }
 
 void DatePicker::setDate(const QDate &date)

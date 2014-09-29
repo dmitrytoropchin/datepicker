@@ -93,6 +93,20 @@ DatePickerPopup::~DatePickerPopup()
     delete d_ptr;
 }
 
+void DatePickerPopup::setMinimumDate(const QDate &date)
+{
+    Q_D(DatePickerPopup);
+    d->calendar_widget_1->setMinimumDate(date);
+    d->calendar_widget_2->setMinimumDate(date);
+}
+
+void DatePickerPopup::setMaximumDate(const QDate &date)
+{
+    Q_D(DatePickerPopup);
+    d->calendar_widget_1->setMaximumDate(date);
+    d->calendar_widget_2->setMaximumDate(date);
+}
+
 void DatePickerPopup::setDatePickerType(DatePickerType picker_type)
 {
     Q_D(DatePickerPopup);

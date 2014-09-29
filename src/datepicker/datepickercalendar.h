@@ -22,10 +22,16 @@ signals:
     void scrolledTo(const QDate &date);
 public slots:
     void setView(DatePickerView picker_view);
+
+    void setMinimumDate(const QDate &date);
+    void setMaximumDate(const QDate &date);
+
     void setDate(const QDate &date);
     void setPeriod(const QDate &begin, const QDate &end, bool shows_begin = true);
+
     void previous();
     void next();
+
     void reset();
 private slots:
     void onYearViewMonthClicked(int month);

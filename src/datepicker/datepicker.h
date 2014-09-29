@@ -37,7 +37,13 @@ signals:
     void editingFinished();
 public slots:
     void setEditable(bool on);
+
     void setAllowedPickerTypes(DatePickerTypes picker_types);
+
+    void setMinimumDate(const QDate &date);
+    void setMaximumDate(const QDate &date);
+    void setRange(const QDate &minimum, const QDate &maximum);
+
     void setDate(const QDate &date);
     void setPeriod(const QDate &begin, const QDate &end);
 private:

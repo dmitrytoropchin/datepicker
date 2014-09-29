@@ -19,6 +19,9 @@ signals:
     void dateSelected(const QDate &date);
     void periodSelected(const QDate &begin, const QDate &end);
 public slots:
+    void setMinimumDate(const QDate &date);
+    void setMaximumDate(const QDate &date);
+
     void setDate(const QDate &date);
     void setPeriod(const QDate &begin, const QDate &end);
     void setDatePickerType(DatePickerType picker_type);

@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    init_datepicker(&app);                                      // initilize library resources (needed for translations)
+    init_datepicker(&app/*, QLocale::system()*/);               // initilize library resources (needed for translations)
 
     DatePicker picker;                                          // create date picker widget
 
@@ -17,8 +17,13 @@ int main(int argc, char *argv[])
 
     Q_UNUSED(picker.label());                                   // date picker label can be customized in usual way
 
-    picker.setDate(QDate::currentDate());                       // set initial date or period
-    // picker.setPeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
+//    picker.setDate(QDate::currentDate());                       // set initial date or period
+     picker.setPeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
+
+//    picker.setMinimumDate(QDate(2013, 4, 23));
+//    picker.setMaximumDate(QDate(2015, 9, 13));
+    picker.setRange(QDate(2013, 4, 23), QDate(2015, 9, 13));
+
 
     picker.show();
 
