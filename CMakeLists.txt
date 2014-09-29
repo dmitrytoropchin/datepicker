@@ -1,18 +1,16 @@
-cmake_minimum_required(VERSION 2.4)
+project(datepicker)
 
-project(datepicker-lib)
+cmake_minimum_required(VERSION 2.8)
 
-set(DATEPICKER_LIB_NAME datepicker)
+#SET (CMAKE_BUILD_TYPE "Debug")
 
-if(MSVC)
-	set(DATEPICKER_LIB_BUILD_LIBRARY_TYPE SHARED)
-else(MSVC)
-	set(DATEPICKER_LIB_BUILD_LIBRARY_TYPE SHARED CACHE STRING "datepicker library build type")
-	set_property(CACHE DATEPICKER_LIB_BUILD_LIBRARY_TYPE PROPERTY STRINGS SHARED STATIC)
-endif(MSVC)
+option(USE_QT_5 "Use Qt 5" NO)
+option(DATEPICKER_BUILD_UNIT_TEST "Build datepicker library unit test" NO)
 
+set(DATEPICKER_LIBRARY_NAME datepicker)
+set(DATEPICKER_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/library)
 
-if(HARVER_USE_QT_5)
+if(USE_QT_5)
 	find_package(Qt5Core)
 	find_package(Qt5Gui)
 	find_package(Qt5Widgets)
@@ -21,41 +19,11 @@ else()
 
 	set(QT_USE_QTCORE TRUE)
 	set(QT_USE_QTGUI TRUE)
-endif(HARVER_USE_QT_5)
+endif(USE_QT_5)
 
-file(GLOB HDR src/datepicker/*.h)
-file(GLOB SRCS src/*.cpp)
+add_subdirectory(source/library)
 
-set(CMAKE_AUTOMOC ON)
+if (DATEPICKER_BUILD_UNIT_TEST)
+    add_subdirectory(source/unit-test)
+endif(DATEPICKER_BUILD_UNIT_TEST)
 
-if (HARVER_USE_QT_5)
-  qt5_add_resources(RCC_FILE src/datepicker_resources.qrc)
-else()
-  include(${QT_USE_FILE})
-  qt4_add_resources(RCC_FILE src/datepicker_resources.qrc)
-endif(HARVER_USE_QT_5)
-
-add_definitions(-DDATEPICKER_LIBRARY)
-
-include_directories(src/)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-add_library(${DATEPICKER_LIB_NAME} ${DATEPICKER_LIB_BUILD_LIBRARY_TYPE} ${SRCS} ${HDR} ${RCC_FILE})
-
-target_link_libraries(${DATEPICKER_LIB_NAME})
-
-if(HARVER_USE_QT_5)
-  qt5_use_modules(${DATEPICKER_LIB_NAME} Core Gui Widgets)
-else()
-  target_link_libraries(${DATEPICKER_LIB_NAME} ${QT_LIBRARIES})
-endif(HARVER_USE_QT_5)
-
-set(INCLUDE_INSTALLS 	src/datepicker/datepicker_common.h
-    					src/datepicker/datepicker.h
-					    src/datepicker/datepickerabstractformater.h
-					    src/datepicker/datepickerstandardformater.h
-					    src/datepicker/datepickerhumanreadableformater.h
-	)
-
-install(TARGETS ${DATEPICKER_LIB_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-install(FILES ${INCLUDE_INSTALLS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${DATEPICKER_LIB_NAME})
