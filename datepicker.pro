@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = src/datepicker-lib.pro example/example.pro
+SUBDIRS = source/library/datepicker-library.pro source/unit-test/datepicker-test.pro

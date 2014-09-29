@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/datepicker_translations">
-        <file alias="ru">datepicker_ru.qm</file>
-        <file alias="en">datepicker_en.qm</file>
-    </qresource>
-</RCC>

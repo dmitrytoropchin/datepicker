@@ -7,3 +7,7 @@ UI_DIR      = $$BUILD_DIR
 
 # instalation
 INSTALL_PREFIX = /usr/local
+
+# names
+DATEPICKER_LIBRARY_NAME=datepicker
+DATEPICKER_LIBRARY_PATH=$$PWD/source/library
