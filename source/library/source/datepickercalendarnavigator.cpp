@@ -41,6 +41,7 @@ class DatePickerCalendarNavigatorPrivate {
         current_button->setCursor(Qt::PointingHandCursor);
 
         QHBoxLayout *main_layout = new QHBoxLayout(q);
+        main_layout->setContentsMargins(QMargins(0, 9, 0, 0));
         main_layout->addWidget(previous_button);
         main_layout->addWidget(current_button);
         main_layout->addWidget(next_button);
