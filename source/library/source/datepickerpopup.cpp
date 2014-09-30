@@ -71,6 +71,8 @@ DatePickerPopup::DatePickerPopup(QWidget *parent) :
     QWidget(parent),
     d_ptr(new DatePickerPopupPrivate(this))
 {
+    setObjectName("datepicker_popup");
+    
     Q_D(DatePickerPopup);
     d->initUi();
 

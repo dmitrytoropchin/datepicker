@@ -39,6 +39,8 @@ private:
         formater = new DatePickerHumanReadableFormater();
 
         date_label = new QLabel(q);
+        date_label->setObjectName("datepicker_label");
+        
         date_label->installEventFilter(q);
         date_label->setCursor(Qt::PointingHandCursor);
 
