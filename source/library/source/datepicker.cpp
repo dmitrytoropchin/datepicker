@@ -51,6 +51,12 @@ private:
 
         q->setWindowTitle(QObject::tr("Date Picker"));
     }
+    
+    void adjustPopupPosition()
+    {
+        Q_Q(DatePicker);
+        popup->move(q->mapToGlobal(q->rect().bottomLeft()));
+    }
 };
 
 DatePicker::DatePicker(QWidget *parent) :
@@ -242,7 +248,23 @@ void DatePicker::moveEvent(QMoveEvent *event)
     QWidget::moveEvent(event);
 
     Q_D(DatePicker);
-    d->popup->move(mapToGlobal(rect().bottomLeft()));
+    d->adjustPopupPosition();
+}
+
+void DatePicker::showEvent(QShowEvent *event)
+{
+    QWidget::showEvent(event);
+    
+    Q_D(DatePicker);
+    d->adjustPopupPosition();
+}
+
+void DatePicker::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    
+    Q_D(DatePicker);
+    d->adjustPopupPosition();
 }
 
 void DatePicker::closeEvent(QCloseEvent *event)

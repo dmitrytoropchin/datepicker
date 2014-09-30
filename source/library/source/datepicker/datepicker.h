@@ -49,6 +49,8 @@ public slots:
 private:
     bool eventFilter(QObject *object, QEvent *event);
     void moveEvent(QMoveEvent *event);
+    void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
     void closeEvent(QCloseEvent *event);
 };
 
