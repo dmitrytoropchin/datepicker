@@ -6,7 +6,22 @@
 
 class QApplication;
 
-void init_datepicker(QApplication *app, const QLocale &locale = QLocale::system());
+#if _WIN32
+#	if defined( __MINGW32__ )
+#		define DATEPICKER_EXPORT
+#	else
+#		if defined DATEPICKER_LIBRARY
+#			define DATEPICKER_EXPORT __declspec (dllexport)
+#		else
+#			define DATEPICKER_EXPORT __declspec(dllimport)
+#		endif
+#	endif
+#else
+#	define DATEPICKER_EXPORT
+#endif
+
+
+void DATEPICKER_EXPORT init_datepicker(QApplication *app, const QLocale &locale = QLocale::system());
 
 
 enum DatePickerView {
@@ -23,12 +38,5 @@ enum DatePickerType {
 
 Q_DECLARE_FLAGS(DatePickerTypes, DatePickerType)
 Q_DECLARE_OPERATORS_FOR_FLAGS(DatePickerTypes)
-
-
-#if defined(DATEPICKER_LIBRARY)
-#  define DATEPICKER_EXPORT Q_DECL_EXPORT
-#else
-#  define DATEPICKER_EXPORT Q_DECL_IMPORT
-#endif
 
 #endif // DATEPICKER_COMMON_H
