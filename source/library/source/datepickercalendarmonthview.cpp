@@ -18,10 +18,11 @@ DatePickerCalendarMonthView::DatePickerCalendarMonthView(QWidget *parent) :
         calendar_view->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
         calendar_view->horizontalHeader()->setDefaultSectionSize(32);
         calendar_view->verticalHeader()->setResizeMode(QHeaderView::Fixed);
-        calendar_view->verticalHeader()->setDefaultSectionSize(25);
+        calendar_view->verticalHeader()->setDefaultSectionSize(32);
     }
 
     QTextCharFormat cell_text_format = headerTextFormat();
+    cell_text_format.setFontPointSize(9);
     cell_text_format.setBackground(QBrush(Qt::white));
     cell_text_format.setForeground(palette().windowText());
 
@@ -46,7 +47,7 @@ DatePickerCalendarMonthView::~DatePickerCalendarMonthView()
 
 QSize DatePickerCalendarMonthView::minimumSizeHint() const
 {
-    return QSize(32 * 7, 25 * 7);
+    return QSize(32 * 7, 32 * 7);
 }
 
 void DatePickerCalendarMonthView::setDate(const QDate &date)
