@@ -10,10 +10,14 @@ int main(int argc, char *argv[])
     init_datepicker(&app/*, QLocale::system()*/);               // initilize library resources (needed for translations)
 
     DatePicker picker;                                          // create date picker widget
+    
+    DatePickerHumanReadableFormater *formater = new DatePickerHumanReadableFormater();
+//    formater->setFromWord(QString::null);                     // setup period delimeters
+//    formater->setToWord("-");                                 // produces "5 - 9 october 2014"
 
     picker.setAllowedPickerTypes(PeriodType | DayType);         // is default
     picker.setEditable(true);                                   // is default
-    picker.setFormater(new DatePickerHumanReadableFormater());  // is default (formater will be deleted in picker destructor)
+    picker.setFormater(formater);                               // is default (formater will be deleted in picker destructor)
 
     Q_UNUSED(picker.label());                                   // date picker label can be customized in usual way
 

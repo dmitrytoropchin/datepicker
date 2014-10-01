@@ -10,6 +10,9 @@ class DatePickerHumanReadableFormaterPrivate {
     
     QMap<int, QString> month_name; // с падежом
     
+    QString from_word;
+    QString to_word;
+    
     DatePickerHumanReadableFormaterPrivate(DatePickerHumanReadableFormater *q) :
         q_ptr(q)
     {
@@ -25,6 +28,9 @@ class DatePickerHumanReadableFormaterPrivate {
         month_name.insert(10, QObject::tr("october"));
         month_name.insert(11, QObject::tr("november"));
         month_name.insert(12, QObject::tr("december"));
+        
+        from_word = QObject::tr("from");
+        to_word = QObject::tr("to");
     }
     
     ~DatePickerHumanReadableFormaterPrivate() {}
@@ -98,5 +104,33 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
                              .arg(d->month_name.value(end.month()))
                              .arg(end.year());
     
-    return QObject::tr("from %1 to %2").arg(human_readable_begin_str).arg(human_readable_end_str);
+    return QObject::tr("%1 %2 %3 %4")
+            .arg(d->from_word)
+            .arg(human_readable_begin_str)
+            .arg(d->to_word)
+            .arg(human_readable_end_str).simplified();
+}
+
+QString DatePickerHumanReadableFormater::fromWord() const
+{
+    Q_D(const DatePickerHumanReadableFormater);
+    return d->from_word;
+}
+
+void DatePickerHumanReadableFormater::setFromWord(const QString &word)
+{
+    Q_D(DatePickerHumanReadableFormater);
+    d->from_word = word;
+}
+
+QString DatePickerHumanReadableFormater::toWord() const
+{
+    Q_D(const DatePickerHumanReadableFormater);
+    return d->to_word;
+}
+
+void DatePickerHumanReadableFormater::setToWord(const QString &word)
+{
+    Q_D(DatePickerHumanReadableFormater);
+    d->to_word = word;
 }
