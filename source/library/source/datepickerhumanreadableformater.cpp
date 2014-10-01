@@ -1,18 +1,19 @@
 #include "datepicker/datepickerhumanreadableformater.h"
 #include <QObject>
 #include <QMap>
+#include <QDebug>
 
 
 class DatePickerHumanReadableFormaterPrivate {
     Q_DECLARE_PUBLIC(DatePickerHumanReadableFormater)
-    
+
     DatePickerHumanReadableFormater *q_ptr;
-    
+
     QMap<int, QString> month_name; // с падежом
-    
+
     QString from_word;
     QString to_word;
-    
+
     DatePickerHumanReadableFormaterPrivate(DatePickerHumanReadableFormater *q) :
         q_ptr(q)
     {
@@ -28,11 +29,11 @@ class DatePickerHumanReadableFormaterPrivate {
         month_name.insert(10, QObject::tr("october"));
         month_name.insert(11, QObject::tr("november"));
         month_name.insert(12, QObject::tr("december"));
-        
+
         from_word = QObject::tr("from");
         to_word = QObject::tr("to");
     }
-    
+
     ~DatePickerHumanReadableFormaterPrivate() {}
 };
 
@@ -50,12 +51,12 @@ DatePickerHumanReadableFormater::~DatePickerHumanReadableFormater()
 QString DatePickerHumanReadableFormater::format(const QDate &date) const
 {
     Q_D(const DatePickerHumanReadableFormater);
-    
+
     QString human_readable_str;
-    
+
     QDate current_date = QDate::currentDate();
     int day_difference = current_date.daysTo(date);
-    
+
     if (day_difference == 0) {
         human_readable_str = QObject::tr("today");
     }
@@ -71,17 +72,17 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
                              .arg(d->month_name.value(date.month()))
                              .arg(date.year());
     }
-    
+
     return human_readable_str;
 }
 
 QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate &end) const
 {
     Q_D(const DatePickerHumanReadableFormater);
-    
+
     QString human_readable_begin_str;
     QString human_readable_end_str;
-    
+
     if (begin.year() == end.year()) {
         if (begin.month() == end.month()) {
             human_readable_begin_str = begin.toString("d");
@@ -98,17 +99,31 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
                                    .arg(d->month_name.value(begin.month()))
                                    .arg(begin.year());
     }
-    
+
     human_readable_end_str = QObject::tr("%1 %2 %3")
                              .arg(end.day())
                              .arg(d->month_name.value(end.month()))
                              .arg(end.year());
-    
+
     return QObject::tr("%1 %2 %3 %4")
             .arg(d->from_word)
             .arg(human_readable_begin_str)
             .arg(d->to_word)
             .arg(human_readable_end_str).simplified();
+}
+
+QString DatePickerHumanReadableFormater::format(const QDateTime &date_time) const
+{
+    // FIXME: implement datetime formating
+    qDebug() << "invoking mockup format method" << date_time;
+    return format(date_time.date());
+}
+
+QString DatePickerHumanReadableFormater::format(const QDateTime &begin, const QDateTime &end) const
+{
+    // FIXME: implement datetime period formating
+    qDebug() << "invoking mockup format method" << begin << end;
+    return format(begin.date(), end.date());
 }
 
 QString DatePickerHumanReadableFormater::fromWord() const

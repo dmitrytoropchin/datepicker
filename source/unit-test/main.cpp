@@ -7,27 +7,46 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    init_datepicker(&app/*, QLocale::system()*/);               // initilize library resources (needed for translations)
+    // initilize library resources (needed for translations)
+    init_datepicker(&app/*, QLocale::system()*/);
 
-    DatePicker picker;                                          // create date picker widget
-    
+    // create date picker widget
+    DatePicker picker;
+
     DatePickerHumanReadableFormater *formater = new DatePickerHumanReadableFormater();
-//    formater->setFromWord(QString::null);                     // setup period delimeters
-//    formater->setToWord("-");                                 // produces "5 - 9 october 2014"
+    // setup period delimeters in date string representation
+//    formater->setFromWord(QString::null);
+//    formater->setToWord("-");
 
-    picker.setAllowedPickerTypes(PeriodType | DayType);         // is default
-    picker.setEditable(true);                                   // is default
-    picker.setFormater(formater);                               // is default (formater will be deleted in picker destructor)
+    // formater is used for date string representation in date picker label
+    picker.setFormater(formater);
 
-    Q_UNUSED(picker.label());                                   // date picker label can be customized in usual way
+    // default combination on DatePickerTypes
+    picker.setAllowedPickerTypes(PeriodType | DayType);
 
-//    picker.setDate(QDate::currentDate());                       // set initial date or period
-     picker.setPeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
+    // editable datepicker shows calendar popup on mouse click
+    picker.setEditable(true);
+
+    // enabling time inputs (enabled by default)
+    picker.setTimeEditable(true);
+
+    // set time input format (default is hh:mm:ss)
+    picker.setTimeInputFormat("hh:mm:ss");
+
+    // date picker label can be customized in usual way
+    Q_UNUSED(picker.label());
+
+    // set initial date or period
+//    picker.setDate(QDate::currentDate());
+    picker.setDatePeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
+
+    // set initial time
+//    picker.setTime(QTime(12, 0, 0));
+    picker.setTimePeriod(QTime(0, 0, 0), QTime(23, 59, 59));
 
 //    picker.setMinimumDate(QDate(2013, 4, 23));
 //    picker.setMaximumDate(QDate(2015, 9, 13));
     picker.setRange(QDate(2013, 4, 23), QDate(2015, 9, 13));
-
 
     picker.show();
 

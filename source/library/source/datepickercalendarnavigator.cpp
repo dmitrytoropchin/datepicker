@@ -27,18 +27,21 @@ class DatePickerCalendarNavigatorPrivate {
         previous_button->setFixedSize(20, 20);
         previous_button->setFlat(true);
         previous_button->setCursor(Qt::PointingHandCursor);
+        previous_button->setFocusPolicy(Qt::NoFocus);
 
         next_button = new QPushButton(">", q);
         next_button->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         next_button->setFixedSize(20, 20);
         next_button->setFlat(true);
         next_button->setCursor(Qt::PointingHandCursor);
+        next_button->setFocusPolicy(Qt::NoFocus);
 
         current_button = new QPushButton(q);
         current_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         current_button->setFixedHeight(20);
         current_button->setFlat(true);
         current_button->setCursor(Qt::PointingHandCursor);
+        current_button->setFocusPolicy(Qt::NoFocus);
 
         QHBoxLayout *main_layout = new QHBoxLayout(q);
         main_layout->setContentsMargins(QMargins(0, 9, 0, 0));

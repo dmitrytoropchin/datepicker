@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QCalendarWidget>
 #include <QStackedWidget>
+#include <QFrame>
 #include "datepicker/datepickercalendarnavigator.h"
 #include "datepicker/datepickercalendarmonthview.h"
 #include "datepicker/datepickercalendaryearview.h"
@@ -14,6 +15,7 @@ class DatePickerCalendarPrivate {
     DatePickerCalendar *q_ptr;
     DatePickerCalendarNavigator *navigator;
     QStackedWidget *view_stack;
+    QFrame *hline;
     DatePickerCalendarMonthView *month_view;
     DatePickerCalendarYearView *year_view;
     DatePickerCalendarDecadeView *decade_view;
@@ -48,12 +50,17 @@ class DatePickerCalendarPrivate {
         view_stack->setCurrentIndex(MonthView);
 
         view_stack->setFixedSize(month_view->minimumSizeHint());
+        
+        hline = new QFrame(q);
+        hline->setFrameStyle(QFrame::HLine);
+        hline->setStyleSheet("border-top: 1px dashed black");
 
         QVBoxLayout *main_layout = new QVBoxLayout(q);
         main_layout->setContentsMargins(QMargins());
-        main_layout->setSpacing(0);
+        main_layout->setSpacing(1);
         main_layout->addWidget(navigator);
         main_layout->addWidget(view_stack, 1);
+        main_layout->addWidget(hline);
 
         navigator->setView(MonthView);
         navigator->setDate(month_view->selectedDate());
@@ -130,6 +137,12 @@ QDate DatePickerCalendar::selectedDate() const
 {
     Q_D(const DatePickerCalendar);
     return d->month_view->selectedDate();
+}
+
+void DatePickerCalendar::setFrameVisible(bool on)
+{
+    Q_D(DatePickerCalendar);
+    d->hline->setVisible(on);
 }
 
 void DatePickerCalendar::setView(DatePickerView picker_view)

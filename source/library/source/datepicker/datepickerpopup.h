@@ -15,24 +15,44 @@ class DatePickerPopup : public QWidget {
 public:
     explicit DatePickerPopup(QWidget *parent = 0);
     ~DatePickerPopup();
+
+    bool isTimeEditable() const;
+
+    QString timeInputFormat() const;
 signals:
     void dateSelected(const QDate &date);
-    void periodSelected(const QDate &begin, const QDate &end);
+    void datePeriodSelected(const QDate &begin, const QDate &end);
+
+    void timeSelected(const QTime &time);
+    void timePeriodSelected(const QTime &begin, const QTime &end);
 public slots:
     void setMinimumDate(const QDate &date);
     void setMaximumDate(const QDate &date);
 
     void setDate(const QDate &date);
-    void setPeriod(const QDate &begin, const QDate &end);
+    void setDatePeriod(const QDate &begin, const QDate &end);
+
+    void setTime(const QTime &time);
+    void setTimePeriod(const QTime &begin, const QTime &end);
+
     void setDatePickerType(DatePickerType picker_type);
+
     void setAllowedPickerTypes(DatePickerTypes picker_types);
+
+    void setTimeEditable(bool on);
+
+    void setTimeInputFormat(const QString &format);
 
     void reset();
 private slots:
     void onCalendar1DateSelected(const QDate &date);
-    void onCalendar1Scrolled(const QDate &date);
     void onCalendar2DateSelected(const QDate &date);
+
+    void onCalendar1Scrolled(const QDate &date);
     void onCalendar2Scrolled(const QDate &date);
+
+    void onTimeEdit1TimeChanged(const QTime &time);
+    void onTimeEdit2TimeChanged(const QTime &time);
 private:
     void paintEvent(QPaintEvent *event);
 };
