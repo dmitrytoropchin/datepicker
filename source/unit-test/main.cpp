@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 
     DatePickerHumanReadableFormater *formater = new DatePickerHumanReadableFormater();
     // setup period delimeters in date string representation
-//    formater->setFromWord(QString::null);
-//    formater->setToWord("-");
+//    formater->setDateFromWord(QString::null);
+//    formater->setDateToWord("-");
 
     // formater is used for date string representation in date picker label
     picker.setFormater(formater);
@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
     picker.setDatePeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
 
     // set initial time
-//    picker.setTime(QTime(12, 0, 0));
     picker.setTimePeriod(QTime(0, 0, 0), QTime(23, 59, 59));
 
 //    picker.setMinimumDate(QDate(2013, 4, 23));
@@ -53,8 +52,8 @@ int main(int argc, char *argv[])
     // wait for signal DatePicker::editingFinished()
     // use picker.pickerType() to obtain input format (day or period)
     // based on obtained input format extract selected date or period by
-    // picker.selectedDate() or
-    // picker.selectedPeriodBegin() and picker.selectedPeriodEnd()
+    // picker.date() or
+    // picker.datePeriodBegin() and picker.datePeriodEnd()
 
     // if picker.isTimeEditEnabled() and picker.pickerType() is PeriodType
     // selected time range can be obtained with methods
