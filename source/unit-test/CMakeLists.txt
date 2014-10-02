@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 
 include_directories(./)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${DATEPICKER_LIBRARY_DIR}/source)
+include_directories(${DATEPICKER_LIBRARY_DIR})
 
 add_executable(${PROJECT_NAME} main.cpp)
 
