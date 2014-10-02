@@ -80,6 +80,9 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
 {
     Q_D(const DatePickerHumanReadableFormater);
 
+    if (begin == end)
+        return format(begin);
+
     QString human_readable_begin_str;
     QString human_readable_end_str;
 
