@@ -23,6 +23,8 @@ class DatePickerCalendarPrivate {
     bool is_period_begin_shown;
     QDate date_begin;
     QDate date_end;
+    QDate minimum_date;
+    QDate maximum_date;
 
     DatePickerCalendarPrivate(DatePickerCalendar *q) :
         q_ptr(q), is_period_shown(false), is_period_begin_shown(false) {}
@@ -50,7 +52,7 @@ class DatePickerCalendarPrivate {
         view_stack->setCurrentIndex(MonthView);
 
         view_stack->setFixedSize(month_view->minimumSizeHint());
-        
+
         hline = new QFrame(q);
         hline->setFrameStyle(QFrame::HLine);
         hline->setStyleSheet("border-top: 1px dashed black");
@@ -68,7 +70,8 @@ class DatePickerCalendarPrivate {
         q->setLayout(main_layout);
     }
 
-    void scroll(int direction) {
+    void scroll(int direction)
+    {
         Q_Q(DatePickerCalendar);
 
         switch (navigator->view()) {
@@ -108,6 +111,20 @@ class DatePickerCalendarPrivate {
             default:
                 break;
         }
+    }
+
+    void limitMinimum(const QDate &min_date)
+    {
+        month_view->setMinimumDate(min_date.isValid() ? min_date : QDate::fromJulianDay(1));
+        year_view->setMinimumDate(min_date);
+        decade_view->setMinimumDate(min_date);
+    }
+
+    void limitMaximum(const QDate &max_date)
+    {
+        month_view->setMaximumDate(max_date.isValid() ? max_date : QDate(7999, 12, 31));
+        year_view->setMaximumDate(max_date);
+        decade_view->setMaximumDate(max_date);
     }
 };
 
@@ -155,6 +172,7 @@ void DatePickerCalendar::setView(DatePickerView picker_view)
 void DatePickerCalendar::setMinimumDate(const QDate &date)
 {
     Q_D(DatePickerCalendar);
+    d->minimum_date = date;
     d->month_view->setMinimumDate(date.isValid() ? date : QDate::fromJulianDay(1));
     d->year_view->setMinimumDate(date);
     d->decade_view->setMinimumDate(date);
@@ -163,6 +181,7 @@ void DatePickerCalendar::setMinimumDate(const QDate &date)
 void DatePickerCalendar::setMaximumDate(const QDate &date)
 {
     Q_D(DatePickerCalendar);
+    d->maximum_date = date;
     d->month_view->setMaximumDate(date.isValid() ? date : QDate(7999, 12, 31));
     d->year_view->setMaximumDate(date);
     d->decade_view->setMaximumDate(date);
@@ -195,6 +214,15 @@ void DatePickerCalendar::setPeriod(const QDate &begin, const QDate &end, bool sh
     d->date_end = end;
     d->is_period_shown = true;
     d->is_period_begin_shown = shows_begin;
+
+    if (d->is_period_begin_shown) {
+        d->limitMinimum(d->minimum_date);
+        d->limitMaximum(end);
+    }
+    else {
+        d->limitMinimum(begin);
+        d->limitMaximum(d->maximum_date);
+    }
 }
 
 void DatePickerCalendar::previous()
