@@ -16,12 +16,13 @@ public:
 
     QString format(const QDate &date) const;
     QString format(const QDate &begin, const QDate &end) const;
-    
-    QString fromWord() const;
-    void setFromWord(const QString &word);
-    
-    QString toWord() const;
-    void setToWord(const QString &word);
+    QString format(const QDateTime &begin, const QDateTime &end) const;
+
+    QString dateFromWord() const;
+    void setDateFromWord(const QString &word);
+
+    QString dateToWord() const;
+    void setDateToWord(const QString &word);
 };
 
 #endif // DATEPICKERHUMANREADABLEFORMATER_H

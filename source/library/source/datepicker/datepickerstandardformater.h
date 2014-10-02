@@ -16,9 +16,13 @@ public:
 
     QString format(const QDate &date) const;
     QString format(const QDate &begin, const QDate &end) const;
+    QString format(const QDateTime &begin, const QDateTime &end) const;
 
-    QString formatTemplate() const;
-    void setFormatTemplate(const QString &format_template);
+    QString dateFormatTemplate() const;
+    void setDateFormatTemplate(const QString &format_template);
+
+    QString dateTimeFormatTemplate() const;
+    void setDateTimeFormatTemplate(const QString &format_template);
 };
 
 #endif // DATEPICKERSTANDARDFORMATER_H

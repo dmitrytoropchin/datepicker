@@ -25,14 +25,24 @@ public:
 
     bool isEditable() const;
 
+    bool isTimeEditable() const;
+
+    QString timeInputFormat() const;
+
     DatePickerAbstractFormater *formater() const;
     void setFormater(DatePickerAbstractFormater *formater);
 
     DatePickerType pickerType() const;
 
-    QDate selectedDate() const;
-    QDate selectedPeriodBegin() const;
-    QDate selectedPeriodEnd() const;
+    QDate date() const;
+    QDate datePeriodBegin() const;
+    QDate datePeriodEnd() const;
+
+    QTime timePeriodBegin() const;
+    QTime timePeriodEnd() const;
+
+    QDateTime dateTimePeriodBegin() const;
+    QDateTime dateTimePeriodEnd() const;
 signals:
     void editingFinished();
 public slots:
@@ -40,12 +50,20 @@ public slots:
 
     void setAllowedPickerTypes(DatePickerTypes picker_types);
 
+    void setTimeEditable(bool on);
+
+    void setTimeInputFormat(const QString &format);
+
     void setMinimumDate(const QDate &date);
     void setMaximumDate(const QDate &date);
     void setRange(const QDate &minimum, const QDate &maximum);
 
     void setDate(const QDate &date);
-    void setPeriod(const QDate &begin, const QDate &end);
+    void setDatePeriod(const QDate &begin, const QDate &end);
+
+    void setTimePeriod(const QTime &begin, const QTime &end);
+
+    void setDateTimePeriod(const QDateTime &begin, const QDateTime &end);
 private:
     bool eventFilter(QObject *object, QEvent *event);
     void moveEvent(QMoveEvent *event);

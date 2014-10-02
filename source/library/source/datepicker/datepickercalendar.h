@@ -21,6 +21,8 @@ signals:
     void dateSelected(const QDate &date);
     void scrolledTo(const QDate &date);
 public slots:
+    void setFrameVisible(bool on);
+    
     void setView(DatePickerView picker_view);
 
     void setMinimumDate(const QDate &date);

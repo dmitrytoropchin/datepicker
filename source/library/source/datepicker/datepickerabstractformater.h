@@ -12,6 +12,7 @@ public:
 
     virtual QString format(const QDate &date) const = 0;
     virtual QString format(const QDate &begin, const QDate &end) const = 0;
+    virtual QString format(const QDateTime &begin, const QDateTime &end) const = 0;
 };
 
 #endif // DATEPICKERABSTRACTFORMATER_H

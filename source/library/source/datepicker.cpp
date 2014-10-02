@@ -4,6 +4,7 @@
 #include <QMoveEvent>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QDebug>
 #include "datepicker/datepickerpopup.h"
 #include "datepicker/datepickerabstractformater.h"
 #include "datepicker/datepickerhumanreadableformater.h"
@@ -17,6 +18,8 @@ class DatePickerPrivate {
     DatePickerType picker_type;
     QDate date_begin;
     QDate date_end;
+    QTime time_begin;
+    QTime time_end;
     QLabel *date_label;
     DatePickerPopup *popup;
     DatePickerAbstractFormater *formater;
@@ -40,7 +43,7 @@ private:
 
         date_label = new QLabel(q);
         date_label->setObjectName("datepicker_label");
-        
+
         date_label->installEventFilter(q);
         date_label->setCursor(Qt::PointingHandCursor);
 
@@ -53,7 +56,7 @@ private:
 
         q->setWindowTitle(QObject::tr("Date Picker"));
     }
-    
+
     void adjustPopupPosition()
     {
         Q_Q(DatePicker);
@@ -69,7 +72,8 @@ DatePicker::DatePicker(QWidget *parent) :
     d->initUi();
 
     connect(d->popup, SIGNAL(dateSelected(QDate)), SLOT(setDate(QDate)));
-    connect(d->popup, SIGNAL(periodSelected(QDate,QDate)), SLOT(setPeriod(QDate,QDate)));
+    connect(d->popup, SIGNAL(datePeriodSelected(QDate,QDate)), SLOT(setDatePeriod(QDate,QDate)));
+    connect(d->popup, SIGNAL(timePeriodSelected(QTime,QTime)), SLOT(setTimePeriod(QTime,QTime)));
 }
 
 DatePicker::~DatePicker()
@@ -95,6 +99,18 @@ bool DatePicker::isEditable() const
     return d->is_editable;
 }
 
+bool DatePicker::isTimeEditable() const
+{
+    Q_D(const DatePicker);
+    return d->popup->isTimeEditable();
+}
+
+QString DatePicker::timeInputFormat() const
+{
+    Q_D(const DatePicker);
+    return d->popup->timeInputFormat();
+}
+
 DatePickerAbstractFormater *DatePicker::formater() const
 {
     Q_D(const DatePicker);
@@ -113,10 +129,14 @@ void DatePicker::setFormater(DatePickerAbstractFormater *formater)
     d->formater = formater;
 
     if (d->formater != 0) {
-        if (d->picker_type == DayType)
+        if (d->picker_type == DayType) {
             setDate(d->date_begin);
-        if (d->picker_type == PeriodType)
-            setPeriod(d->date_begin, d->date_end);
+        }
+        if (d->picker_type == PeriodType) {
+            setDatePeriod(d->date_begin, d->date_end);
+            if (isTimeEditable())
+                setTimePeriod(d->time_begin, d->time_end);
+        }
     }
 }
 
@@ -126,22 +146,46 @@ DatePickerType DatePicker::pickerType() const
     return d->picker_type;
 }
 
-QDate DatePicker::selectedDate() const
+QDate DatePicker::date() const
 {
     Q_D(const DatePicker);
     return d->date_begin;
 }
 
-QDate DatePicker::selectedPeriodBegin() const
+QDate DatePicker::datePeriodBegin() const
 {
     Q_D(const DatePicker);
     return d->date_begin;
 }
 
-QDate DatePicker::selectedPeriodEnd() const
+QDate DatePicker::datePeriodEnd() const
 {
     Q_D(const DatePicker);
     return d->date_end;
+}
+
+QTime DatePicker::timePeriodBegin() const
+{
+    Q_D(const DatePicker);
+    return d->time_begin;
+}
+
+QTime DatePicker::timePeriodEnd() const
+{
+    Q_D(const DatePicker);
+    return d->time_end;
+}
+
+QDateTime DatePicker::dateTimePeriodBegin() const
+{
+    Q_D(const DatePicker);
+    return QDateTime(d->date_begin, d->time_begin);
+}
+
+QDateTime DatePicker::dateTimePeriodEnd() const
+{
+    Q_D(const DatePicker);
+    return QDateTime(d->date_end, d->time_end);
 }
 
 void DatePicker::setEditable(bool on)
@@ -155,6 +199,18 @@ void DatePicker::setAllowedPickerTypes(DatePickerTypes picker_types)
 {
     Q_D(DatePicker);
     d->popup->setAllowedPickerTypes(picker_types);
+}
+
+void DatePicker::setTimeEditable(bool on)
+{
+    Q_D(DatePicker);
+    d->popup->setTimeEditable(on);
+}
+
+void DatePicker::setTimeInputFormat(const QString &format)
+{
+    Q_D(DatePicker);
+    d->popup->setTimeInputFormat(format);
 }
 
 void DatePicker::setMinimumDate(const QDate &date)
@@ -193,7 +249,7 @@ void DatePicker::setDate(const QDate &date)
         d->date_label->clear();
 }
 
-void DatePicker::setPeriod(const QDate &begin, const QDate &end)
+void DatePicker::setDatePeriod(const QDate &begin, const QDate &end)
 {
     Q_D(DatePicker);
 
@@ -202,10 +258,49 @@ void DatePicker::setPeriod(const QDate &begin, const QDate &end)
     d->date_begin = begin;
     d->date_end = end;
 
-    d->popup->setPeriod(begin, end);
+    d->popup->setDatePeriod(begin, end);
+
+    if (d->formater != 0) {
+        d->date_label->setText(
+                    isTimeEditable()
+                    ? d->formater->format(dateTimePeriodBegin(), dateTimePeriodEnd())
+                    : d->formater->format(begin, end));
+    }
+    else {
+        d->date_label->clear();
+    }
+}
+
+void DatePicker::setTimePeriod(const QTime &begin, const QTime &end)
+{
+    Q_D(DatePicker);
+
+    d->time_begin = begin;
+    d->time_end = end;
+
+    d->popup->setTimePeriod(begin, end);
 
     if (d->formater != 0)
-        d->date_label->setText(d->formater->format(begin, end));
+        d->date_label->setText(d->formater->format(dateTimePeriodBegin(), dateTimePeriodEnd()));
+    else
+        d->date_label->clear();
+}
+
+void DatePicker::setDateTimePeriod(const QDateTime &begin, const QDateTime &end)
+{
+    Q_D(DatePicker);
+
+    d->date_begin = begin.date();
+    d->date_end = end.date();
+
+    d->time_begin = begin.time();
+    d->time_end = end.time();
+
+    d->popup->setDatePeriod(begin.date(), end.date());
+    d->popup->setTimePeriod(begin.time(), end.time());
+
+    if (d->formater != 0)
+        d->date_label->setText(d->formater->format(dateTimePeriodBegin(), dateTimePeriodEnd()));
     else
         d->date_label->clear();
 }
@@ -215,15 +310,15 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
     Q_D(DatePicker);
 
     if (!d->is_editable)
-        return false;
+        return QWidget::eventFilter(object, event);
 
     if ((object == d->date_label) && (event->type() == QEvent::MouseButtonRelease)) {
         QMouseEvent *mouse_event = dynamic_cast<QMouseEvent *>(event);
         if (!mouse_event)
-            return false;
+            return QWidget::eventFilter(object, event);
 
         if (mouse_event->button() != Qt::LeftButton)
-            return false;
+            return QWidget::eventFilter(object, event);
 
         if (d->popup->isVisible()) {
             d->popup->close();
@@ -232,17 +327,22 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
         else {
             d->popup->reset();
 
-            if (d->picker_type == DayType)
+            if (d->picker_type == DayType) {
                 d->popup->setDate(d->date_begin);
-            if (d->picker_type == PeriodType)
-                d->popup->setPeriod(d->date_begin, d->date_end);
+            }
+            if (d->picker_type == PeriodType) {
+                d->popup->setDatePeriod(d->date_begin, d->date_end);
+                if (d->popup->isTimeEditable())
+                    d->popup->setTimePeriod(d->time_begin, d->time_end);
+            }
 
             d->popup->show();
+            d->popup->raise();
             d->popup->activateWindow();
         }
     }
 
-    return false;
+    return QWidget::eventFilter(object, event);
 }
 
 void DatePicker::moveEvent(QMoveEvent *event)
@@ -256,7 +356,7 @@ void DatePicker::moveEvent(QMoveEvent *event)
 void DatePicker::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);
-    
+
     Q_D(DatePicker);
     d->adjustPopupPosition();
 }
@@ -264,7 +364,7 @@ void DatePicker::showEvent(QShowEvent *event)
 void DatePicker::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    
+
     Q_D(DatePicker);
     d->adjustPopupPosition();
 }
