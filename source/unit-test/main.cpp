@@ -56,5 +56,11 @@ int main(int argc, char *argv[])
     // picker.selectedDate() or
     // picker.selectedPeriodBegin() and picker.selectedPeriodEnd()
 
+    // if picker.isTimeEditEnabled() and picker.pickerType() is PeriodType
+    // selected time range can be obtained with methods
+    // picker.timePeriodBegin() and picker.timPeriodEnd()
+    // or more convenient
+    // picker.dateTimePeriodBegin() and picker.dateTimePeriodEnd()
+
     return app.exec();
 }
