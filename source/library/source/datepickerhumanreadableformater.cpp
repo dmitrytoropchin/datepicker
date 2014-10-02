@@ -115,13 +115,6 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
             .arg(human_readable_end_str).simplified();
 }
 
-QString DatePickerHumanReadableFormater::format(const QDateTime &date_time) const
-{
-    // FIXME: implement datetime formating
-    qDebug() << "invoking mockup format method" << date_time;
-    return format(date_time.date());
-}
-
 QString DatePickerHumanReadableFormater::format(const QDateTime &begin, const QDateTime &end) const
 {
     // FIXME: implement datetime period formating

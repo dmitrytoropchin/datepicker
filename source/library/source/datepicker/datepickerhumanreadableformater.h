@@ -16,8 +16,6 @@ public:
 
     QString format(const QDate &date) const;
     QString format(const QDate &begin, const QDate &end) const;
-
-    QString format(const QDateTime &date_time) const;
     QString format(const QDateTime &begin, const QDateTime &end) const;
 
     QString fromWord() const;

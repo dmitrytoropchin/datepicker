@@ -38,12 +38,6 @@ QString DatePickerStandardFormater::format(const QDate &begin, const QDate &end)
             .arg(end.toString(d->date_format_template));
 }
 
-QString DatePickerStandardFormater::format(const QDateTime &date_time) const
-{
-    Q_D(const DatePickerStandardFormater);
-    return date_time.toString(d->date_time_format_template);
-}
-
 QString DatePickerStandardFormater::format(const QDateTime &begin, const QDateTime &end) const
 {
     Q_D(const DatePickerStandardFormater);
