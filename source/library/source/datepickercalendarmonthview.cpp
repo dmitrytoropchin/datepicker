@@ -97,8 +97,6 @@ void DatePickerCalendarMonthView::setDate(const QDate &date)
     setCurrentPage(date.year(), date.month());
     setSelectedDate(date);
 
-//    setDateTextFormat(QDate(), QTextCharFormat());
-
     updateCells();
 }
 
@@ -113,14 +111,6 @@ void DatePickerCalendarMonthView::setPeriod(const QDate &begin, const QDate &end
 
     setCurrentPage(shown_date.year(), shown_date.month());
     setSelectedDate(shown_date);
-
-    //    setDateTextFormat(QDate(), QTextCharFormat());
-
-    //    QTextCharFormat highlight_date_format;
-    //    highlight_date_format.setBackground(QBrush(QColor(0xd3, 0xdd, 0xe5)));
-
-    //    for (QDate date_idx = begin; date_idx <= end; date_idx = date_idx.addDays(1))
-    //        setDateTextFormat(date_idx, highlight_date_format);
 
     updateCells();
 }
