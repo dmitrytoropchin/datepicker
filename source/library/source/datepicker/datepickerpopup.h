@@ -23,7 +23,6 @@ signals:
     void dateSelected(const QDate &date);
     void datePeriodSelected(const QDate &begin, const QDate &end);
 
-    void timeSelected(const QTime &time);
     void timePeriodSelected(const QTime &begin, const QTime &end);
 public slots:
     void setMinimumDate(const QDate &date);
@@ -32,7 +31,6 @@ public slots:
     void setDate(const QDate &date);
     void setDatePeriod(const QDate &begin, const QDate &end);
 
-    void setTime(const QTime &time);
     void setTimePeriod(const QTime &begin, const QTime &end);
 
     void setDatePickerType(DatePickerType picker_type);

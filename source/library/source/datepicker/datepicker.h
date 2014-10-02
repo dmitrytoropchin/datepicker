@@ -38,11 +38,9 @@ public:
     QDate datePeriodBegin() const;
     QDate datePeriodEnd() const;
 
-    QTime time() const;
     QTime timePeriodBegin() const;
     QTime timePeriodEnd() const;
 
-    QDateTime dateTime() const;
     QDateTime dateTimePeriodBegin() const;
     QDateTime dateTimePeriodEnd() const;
 signals:
@@ -63,10 +61,8 @@ public slots:
     void setDate(const QDate &date);
     void setDatePeriod(const QDate &begin, const QDate &end);
 
-    void setTime(const QTime &time);
     void setTimePeriod(const QTime &begin, const QTime &end);
 
-    void setDateTime(const QDateTime &date_time);
     void setDateTimePeriod(const QDateTime &begin, const QDateTime &end);
 private:
     bool eventFilter(QObject *object, QEvent *event);
