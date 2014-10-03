@@ -2,10 +2,46 @@
 #include <QTextCharFormat>
 #include <QTableView>
 #include <QHeaderView>
+#include <QPainter>
+
+
+class DatePickerCalendarMonthViewPrivate {
+    Q_DECLARE_PUBLIC(DatePickerCalendarMonthView)
+
+    DatePickerCalendarMonthView *q_ptr;
+
+    QDate period_begin;
+    QDate period_end;
+
+    QColor normal_background;
+    QColor normal_foreground;
+
+    QColor invalid_background;
+    QColor invalid_foreground;
+
+    QColor highlighted_background;
+    QColor highlighted_foreground;
+
+    DatePickerCalendarMonthViewPrivate(DatePickerCalendarMonthView *q) :
+        q_ptr(q)
+    {
+        normal_background = QColor(Qt::white);
+        normal_foreground = QColor(Qt::black);
+
+        invalid_background = QColor(Qt::white);
+        invalid_foreground = QColor(Qt::lightGray);
+
+        highlighted_background = QColor("#5472b0");
+        highlighted_foreground = QColor(Qt::white);
+    }
+
+    ~DatePickerCalendarMonthViewPrivate() {}
+};
 
 
 DatePickerCalendarMonthView::DatePickerCalendarMonthView(QWidget *parent) :
-    QCalendarWidget(parent)
+    QCalendarWidget(parent),
+    d_ptr(new DatePickerCalendarMonthViewPrivate(this))
 {
     setDateEditEnabled(false);
     setNavigationBarVisible(false);
@@ -43,6 +79,7 @@ DatePickerCalendarMonthView::DatePickerCalendarMonthView(QWidget *parent) :
 
 DatePickerCalendarMonthView::~DatePickerCalendarMonthView()
 {
+    delete d_ptr;
 }
 
 QSize DatePickerCalendarMonthView::minimumSizeHint() const
@@ -52,24 +89,59 @@ QSize DatePickerCalendarMonthView::minimumSizeHint() const
 
 void DatePickerCalendarMonthView::setDate(const QDate &date)
 {
+    Q_D(DatePickerCalendarMonthView);
+
+    d->period_begin = QDate();
+    d->period_end = QDate();
+
     setCurrentPage(date.year(), date.month());
     setSelectedDate(date);
 
-    setDateTextFormat(QDate(), QTextCharFormat());
+    updateCells();
 }
 
 void DatePickerCalendarMonthView::setPeriod(const QDate &begin, const QDate &end, bool shows_begin)
 {
+    Q_D(DatePickerCalendarMonthView);
+
+    d->period_begin = begin;
+    d->period_end = end;
+
     QDate shown_date = shows_begin ? begin : end;
 
     setCurrentPage(shown_date.year(), shown_date.month());
     setSelectedDate(shown_date);
 
-    setDateTextFormat(QDate(), QTextCharFormat());
+    updateCells();
+}
 
-    QTextCharFormat highlight_date_format;
-    highlight_date_format.setBackground(QBrush(QColor(0xd3, 0xdd, 0xe5)));
+void DatePickerCalendarMonthView::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const
+{
+    Q_D(const DatePickerCalendarMonthView);
 
-    for (QDate date_idx = begin; date_idx <= end; date_idx = date_idx.addDays(1))
-        setDateTextFormat(date_idx, highlight_date_format);
+    painter->save();
+
+    bool is_invalid_date = ((date < minimumDate()) ||
+                            (date > maximumDate()) ||
+                            (date.month() != monthShown()) ||
+                            (date.year() != yearShown()));
+
+    bool is_highlighted_date = (date == selectedDate());
+    if (d->period_begin.isValid() && d->period_end.isValid())
+        is_highlighted_date = ((date >= d->period_begin) && (date <= d->period_end));
+
+    QColor background_color = is_invalid_date ? d->invalid_background
+                                              : is_highlighted_date ? d->highlighted_background
+                                                                    : d->normal_background;
+
+    QColor foreground_color = is_invalid_date ? d->invalid_foreground
+                                              : is_highlighted_date ? d->highlighted_foreground
+                                                                    : d->normal_foreground;
+
+    painter->fillRect(rect, background_color);
+
+    painter->setPen(foreground_color);
+    painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
+
+    painter->restore();
 }
