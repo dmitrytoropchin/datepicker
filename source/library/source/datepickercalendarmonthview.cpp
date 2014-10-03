@@ -31,8 +31,8 @@ class DatePickerCalendarMonthViewPrivate {
         invalid_background = QColor(Qt::white);
         invalid_foreground = QColor(Qt::lightGray);
 
-        highlighted_background = QColor("#5472b0");
-        highlighted_foreground = QColor(Qt::white);
+        highlighted_background = QColor("#d3dde5");
+        highlighted_foreground = QColor(Qt::black);
     }
 
     ~DatePickerCalendarMonthViewPrivate() {}
