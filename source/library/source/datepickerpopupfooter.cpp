@@ -80,9 +80,11 @@ DatePickerType DatePickerPopupFooter::pickerType() const
 void DatePickerPopupFooter::setPickerType(DatePickerType picker_type)
 {
     Q_D(DatePickerPopupFooter);
-    d->day_picker_type_radio_button->setChecked(picker_type == DayType);
-    d->period_picker_type_radio_button->setChecked(picker_type == PeriodType);
-    onDatePickerTypeButtonClicked();
+    if (pickerType() != picker_type) {
+        d->day_picker_type_radio_button->setChecked(picker_type == DayType);
+        d->period_picker_type_radio_button->setChecked(picker_type == PeriodType);
+        onDatePickerTypeButtonClicked();
+    }
 }
 
 void DatePickerPopupFooter::setAllowedPickerTypes(DatePickerTypes picker_types)
