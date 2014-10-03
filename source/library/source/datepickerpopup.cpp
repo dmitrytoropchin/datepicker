@@ -148,6 +148,11 @@ void DatePickerPopup::setDatePickerType(DatePickerType picker_type)
 
     d->time_edit_1->setVisible(show_time_input);
     d->time_edit_2->setVisible(show_time_input);
+
+    if (is_period_type)
+        setDatePeriod(d->calendar_widget_1->selectedDate(), d->calendar_widget_2->selectedDate());
+    else
+        setDate(d->calendar_widget_1->selectedDate());
 }
 
 void DatePickerPopup::setAllowedPickerTypes(DatePickerTypes picker_types)
@@ -222,7 +227,7 @@ void DatePickerPopup::onTimeEdit1TimeChanged(const QTime &time)
 {
     Q_D(DatePickerPopup);
 
-    if ((d->footer->pickerType() == PeriodType) && isTimeEditable())
+    if (isTimeEditable())
         emit timePeriodSelected(time, d->time_edit_2->time());
 }
 
@@ -230,7 +235,7 @@ void DatePickerPopup::onTimeEdit2TimeChanged(const QTime &time)
 {
     Q_D(DatePickerPopup);
 
-    if ((d->footer->pickerType() == PeriodType) && isTimeEditable())
+    if (isTimeEditable())
         emit timePeriodSelected(d->time_edit_1->time(), time);
 }
 
@@ -254,22 +259,23 @@ void DatePickerPopup::paintEvent(QPaintEvent *event)
 void DatePickerPopup::setDate(const QDate &date)
 {
     Q_D(DatePickerPopup);
+    d->footer->setPickerType(DayType);
     d->calendar_widget_1->setDate(date);
     d->calendar_widget_2->setDate(date);
-    d->footer->setPickerType(DayType);
 }
 
 void DatePickerPopup::setDatePeriod(const QDate &begin, const QDate &end)
 {
     Q_D(DatePickerPopup);
+    d->footer->setPickerType(PeriodType);
     d->calendar_widget_1->setPeriod(begin, end, true);
     d->calendar_widget_2->setPeriod(begin, end, false);
-    d->footer->setPickerType(PeriodType);
 }
 
 void DatePickerPopup::setTimePeriod(const QTime &begin, const QTime &end)
 {
     Q_D(DatePickerPopup);
+    d->footer->setPickerType(PeriodType);
     d->time_edit_1->setTime(begin);
     d->time_edit_2->setTime(end);
 }
