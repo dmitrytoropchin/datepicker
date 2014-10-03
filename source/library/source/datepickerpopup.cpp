@@ -97,6 +97,10 @@ DatePickerPopup::DatePickerPopup(QWidget *parent) :
 
     connect(d->footer, SIGNAL(datePickerTypeChanged(DatePickerType)),
             SLOT(setDatePickerType(DatePickerType)));
+
+    setDate(QDate::currentDate());
+    d->time_edit_1->setTime(QTime(0, 0, 0));
+    d->time_edit_2->setTime(QTime(23, 59, 59));
 }
 
 DatePickerPopup::~DatePickerPopup()
