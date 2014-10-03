@@ -151,32 +151,37 @@ QString DatePickerHumanReadableFormater::format(const QDateTime &begin, const QD
         }
     }
     else {
-        QString human_readable_begin_date_str;
-        QString human_readable_end_date_str;
-
-        if (begin.date().year() == end.date().year()) {
-            human_readable_begin_date_str = QObject::tr("%1 %2")
-                                            .arg(begin.date().day())
-                                            .arg(d->month_name.value(begin.date().month()));
+        if ((begin.time() == QTime(0, 0, 0)) && (end.time() == QTime(23, 59, 59))) {
+            human_readable_period_str = format(begin.date(), end.date());
         }
         else {
-            human_readable_begin_date_str = QObject::tr("%1 %2 %3")
-                                            .arg(begin.date().day())
-                                            .arg(d->month_name.value(begin.date().month()))
-                                            .arg(begin.date().year());
-        }
-        human_readable_end_date_str = QObject::tr("%1 %2 %3")
-                                      .arg(end.date().day())
-                                      .arg(d->month_name.value(end.date().month()))
-                                      .arg(end.date().year());
+            QString human_readable_begin_date_str;
+            QString human_readable_end_date_str;
 
-        human_readable_period_str = QObject::tr("%1 %2 %3 %4 %5 %6")
-                                    .arg(d->time_from_word)
-                                    .arg(human_readable_begin_time_str)
-                                    .arg(human_readable_begin_date_str)
-                                    .arg(d->time_to_word)
-                                    .arg(human_readable_end_time_str)
-                                    .arg(human_readable_end_date_str);
+            if (begin.date().year() == end.date().year()) {
+                human_readable_begin_date_str = QObject::tr("%1 %2")
+                                                .arg(begin.date().day())
+                                                .arg(d->month_name.value(begin.date().month()));
+            }
+            else {
+                human_readable_begin_date_str = QObject::tr("%1 %2 %3")
+                                                .arg(begin.date().day())
+                                                .arg(d->month_name.value(begin.date().month()))
+                                                .arg(begin.date().year());
+            }
+            human_readable_end_date_str = QObject::tr("%1 %2 %3")
+                                          .arg(end.date().day())
+                                          .arg(d->month_name.value(end.date().month()))
+                                          .arg(end.date().year());
+
+            human_readable_period_str = QObject::tr("%1 %2 %3 %4 %5 %6")
+                                        .arg(d->time_from_word)
+                                        .arg(human_readable_begin_time_str)
+                                        .arg(human_readable_begin_date_str)
+                                        .arg(d->time_to_word)
+                                        .arg(human_readable_end_time_str)
+                                        .arg(human_readable_end_date_str);
+        }
     }
 
     return human_readable_period_str;
