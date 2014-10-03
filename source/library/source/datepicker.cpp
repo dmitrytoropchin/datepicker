@@ -275,6 +275,8 @@ void DatePicker::setTimePeriod(const QTime &begin, const QTime &end)
 {
     Q_D(DatePicker);
 
+    d->picker_type = PeriodType;
+
     d->time_begin = begin;
     d->time_end = end;
 
