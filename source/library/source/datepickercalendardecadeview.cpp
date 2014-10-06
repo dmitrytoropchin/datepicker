@@ -68,13 +68,16 @@ DatePickerCalendarDecadeView::DatePickerCalendarDecadeView(QWidget *parent) :
     verticalHeader()->hide();
     horizontalHeader()->hide();
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #else
     verticalHeader()->setResizeMode(QHeaderView::Stretch);
     horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 #endif
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setFrameStyle(QFrame::NoFrame);
 

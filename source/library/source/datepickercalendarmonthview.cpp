@@ -51,7 +51,7 @@ DatePickerCalendarMonthView::DatePickerCalendarMonthView(QWidget *parent) :
 
     QTableView *calendar_view = findChild<QTableView *>("qt_calendar_calendarview");
     if (calendar_view) {
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         calendar_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
         calendar_view->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 #else
