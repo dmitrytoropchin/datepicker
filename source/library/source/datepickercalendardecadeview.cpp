@@ -66,10 +66,15 @@ DatePickerCalendarDecadeView::DatePickerCalendarDecadeView(QWidget *parent) :
     }
 
     verticalHeader()->hide();
-    verticalHeader()->setResizeMode(QHeaderView::Stretch);
-
     horizontalHeader()->hide();
+
+#if QT_VERSION >= 0x050000
+    verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+#else
+    verticalHeader()->setResizeMode(QHeaderView::Stretch);
     horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#endif
 
     setFrameStyle(QFrame::NoFrame);
 
