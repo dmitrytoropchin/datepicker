@@ -2,12 +2,12 @@
 #define DATEPICKERPOPUP_H
 
 #include <QDate>
-#include <QDialog>
+#include <QWidget>
 #include "datepicker_common.h"
 
 class DatePickerPopupPrivate;
 
-class DatePickerPopup : public QDialog {
+class DatePickerPopup : public QWidget {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DatePickerPopup)
 

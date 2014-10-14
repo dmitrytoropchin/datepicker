@@ -72,15 +72,13 @@ class DatePickerPopupPrivate {
 
         q->setWindowTitle(QObject::tr("Date Picker"));
 
-        q->setWindowFlags(q->windowFlags() | Qt::FramelessWindowHint);
-
-        q->setModal(false);
+        q->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
     }
 };
 
 
 DatePickerPopup::DatePickerPopup(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
     d_ptr(new DatePickerPopupPrivate(this))
 {
     setObjectName("datepicker_popup");

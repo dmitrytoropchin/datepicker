@@ -319,7 +319,7 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
     if (!d->is_editable)
         return QWidget::eventFilter(object, event);
 
-    if ((object == d->date_label) && (event->type() == QEvent::MouseButtonRelease)) {
+    if ((object == d->date_label) && (event->type() == QEvent::MouseButtonPress)) {
         QMouseEvent *mouse_event = dynamic_cast<QMouseEvent *>(event);
         if (!mouse_event)
             return QWidget::eventFilter(object, event);
@@ -327,11 +327,7 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
         if (mouse_event->button() != Qt::LeftButton)
             return QWidget::eventFilter(object, event);
 
-        if (d->popup->isVisible()) {
-            d->popup->hide();
-            emit editingFinished();
-        }
-        else {
+        if (!d->popup->isVisible()) {
             d->popup->reset();
 
             if (d->picker_type == DayType) {
@@ -347,26 +343,44 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
         }
     }
 
-    if ((object == d->popup) && (event->type() == QEvent::Hide))
-        emit editingFinished();
+    if ((object == d->popup) && (event->type() == QEvent::WindowDeactivate)) {
+        if (d->popup->isVisible())
+            d->popup->close();
+    }
 
-    if ((object == d->popup) && (event->type() == QEvent::FocusOut))
-        d->popup->hide();
+    if ((object == d->popup) && (event->type() == QEvent::Close)) {
+        if (d->popup->isVisible())
+            emit editingFinished();
+    }
 
     return QWidget::eventFilter(object, event);
-}
-
-void DatePicker::moveEvent(QMoveEvent *event)
-{
-    QWidget::moveEvent(event);
-
-    Q_D(DatePicker);
-    d->adjustPopupPosition();
 }
 
 void DatePicker::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);
+
+    Q_D(DatePicker);
+    d->adjustPopupPosition();
+}
+
+void DatePicker::hideEvent(QHideEvent *event)
+{
+    Q_D(DatePicker);
+    d->popup->hide();
+    QWidget::hideEvent(event);
+}
+
+void DatePicker::closeEvent(QCloseEvent *event)
+{
+    Q_D(DatePicker);
+    d->popup->close();
+    QWidget::closeEvent(event);
+}
+
+void DatePicker::moveEvent(QMoveEvent *event)
+{
+    QWidget::moveEvent(event);
 
     Q_D(DatePicker);
     d->adjustPopupPosition();
@@ -378,11 +392,4 @@ void DatePicker::resizeEvent(QResizeEvent *event)
 
     Q_D(DatePicker);
     d->adjustPopupPosition();
-}
-
-void DatePicker::closeEvent(QCloseEvent *event)
-{
-    Q_D(DatePicker);
-    d->popup->close();
-    QWidget::closeEvent(event);
 }

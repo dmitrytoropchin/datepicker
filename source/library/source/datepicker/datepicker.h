@@ -66,10 +66,13 @@ public slots:
     void setDateTimePeriod(const QDateTime &begin, const QDateTime &end);
 private:
     bool eventFilter(QObject *object, QEvent *event);
-    void moveEvent(QMoveEvent *event);
+
     void showEvent(QShowEvent *event);
-    void resizeEvent(QResizeEvent *event);
+    void hideEvent(QHideEvent *event);
     void closeEvent(QCloseEvent *event);
+
+    void moveEvent(QMoveEvent *event);
+    void resizeEvent(QResizeEvent *event);
 };
 
 #endif // DATEPICKER_H
