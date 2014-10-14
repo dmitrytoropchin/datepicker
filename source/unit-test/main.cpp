@@ -18,6 +18,9 @@ int main(int argc, char *argv[])
 //    formater->setDateFromWord(QString::null);
 //    formater->setDateToWord("-");
 
+    // disable showing words "today"/"yesterday"/"tomorrow" instead of date
+//    formater->setSpecialDayWordShown(false);
+
     // formater is used for date string representation in date picker label
     picker.setFormater(formater);
 

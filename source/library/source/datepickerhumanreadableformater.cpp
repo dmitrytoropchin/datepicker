@@ -20,6 +20,8 @@ class DatePickerHumanReadableFormaterPrivate {
     QString invalid_date_word;
     QString invalid_period_word;
 
+    bool is_special_day_word_shown;
+
     DatePickerHumanReadableFormaterPrivate(DatePickerHumanReadableFormater *q) :
         q_ptr(q)
     {
@@ -44,6 +46,8 @@ class DatePickerHumanReadableFormaterPrivate {
 
         invalid_date_word = QObject::tr("undefined date");
         invalid_period_word = QObject::tr("undefined period");
+
+        is_special_day_word_shown = true;
     }
 
     ~DatePickerHumanReadableFormaterPrivate() {}
@@ -72,13 +76,13 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
     QDate current_date = QDate::currentDate();
     int day_difference = current_date.daysTo(date);
 
-    if (day_difference == 0) {
+    if ((day_difference == 0) && d->is_special_day_word_shown) {
         human_readable_str = QObject::tr("today");
     }
-    else if (day_difference == -1) {
+    else if ((day_difference == -1) && d->is_special_day_word_shown) {
         human_readable_str = QObject::tr("yesterday");
     }
-    else if (day_difference == 1) {
+    else if ((day_difference == 1) && d->is_special_day_word_shown) {
         human_readable_str = QObject::tr("tomorrow");
     }
     else {
@@ -248,4 +252,16 @@ void DatePickerHumanReadableFormater::setInvalidPeriodWord(const QString &word)
 {
     Q_D(DatePickerHumanReadableFormater);
     d->invalid_period_word = word;
+}
+
+bool DatePickerHumanReadableFormater::isSpecialDayWordShown() const
+{
+    Q_D(const DatePickerHumanReadableFormater);
+    return d->is_special_day_word_shown;
+}
+
+void DatePickerHumanReadableFormater::setSpecialDayWordShown(bool on)
+{
+    Q_D(DatePickerHumanReadableFormater);
+    d->is_special_day_word_shown = on;
 }

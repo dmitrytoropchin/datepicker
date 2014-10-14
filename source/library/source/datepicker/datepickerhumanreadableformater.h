@@ -29,6 +29,9 @@ public:
 
     QString invalidPeriodWord() const;
     void setInvalidPeriodWord(const QString &word);
+
+    bool isSpecialDayWordShown() const;
+    void setSpecialDayWordShown(bool on);
 };
 
 #endif // DATEPICKERHUMANREADABLEFORMATER_H
