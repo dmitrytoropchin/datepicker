@@ -4,7 +4,6 @@
 #include <QMoveEvent>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QDebug>
 #include "datepicker/datepickerpopup.h"
 #include "datepicker/datepickerabstractformater.h"
 #include "datepicker/datepickerhumanreadableformater.h"
@@ -343,6 +342,9 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
             d->popup->activateWindow();
         }
     }
+
+    if ((object == d->popup) && (event->type() == QEvent::Hide))
+        emit editingFinished();
 
     return QWidget::eventFilter(object, event);
 }
