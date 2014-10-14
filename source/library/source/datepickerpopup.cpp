@@ -72,7 +72,7 @@ class DatePickerPopupPrivate {
 
         q->setWindowTitle(QObject::tr("Date Picker"));
 
-        q->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        q->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     }
 };
 
@@ -149,10 +149,16 @@ void DatePickerPopup::setDatePickerType(DatePickerType picker_type)
     d->time_edit_1->setVisible(show_time_input);
     d->time_edit_2->setVisible(show_time_input);
 
-    if (is_period_type)
+    if (is_period_type && isTimeEditable()) {
         setDatePeriod(d->calendar_widget_1->selectedDate(), d->calendar_widget_2->selectedDate());
-    else
+        setTimePeriod(d->time_edit_1->time(), d->time_edit_2->time());
+    }
+    else if (is_period_type) {
+        setDatePeriod(d->calendar_widget_1->selectedDate(), d->calendar_widget_2->selectedDate());
+    }
+    else {
         setDate(d->calendar_widget_1->selectedDate());
+    }
 }
 
 void DatePickerPopup::setAllowedPickerTypes(DatePickerTypes picker_types)
@@ -197,6 +203,8 @@ void DatePickerPopup::onCalendar1DateSelected(const QDate &date)
         emit dateSelected(date);
     if (d->footer->pickerType() == PeriodType)
         emit datePeriodSelected(date, d->calendar_widget_2->selectedDate());
+    if (isTimeEditable())
+        emit timePeriodSelected(d->time_edit_1->time(), d->time_edit_2->time());
 }
 
 void DatePickerPopup::onCalendar2DateSelected(const QDate &date)
@@ -205,6 +213,8 @@ void DatePickerPopup::onCalendar2DateSelected(const QDate &date)
 
     if (d->footer->pickerType() == PeriodType)
         emit datePeriodSelected(d->calendar_widget_1->selectedDate(), date);
+    if (isTimeEditable())
+        emit timePeriodSelected(d->time_edit_1->time(), d->time_edit_2->time());
 }
 
 void DatePickerPopup::onCalendar1Scrolled(const QDate &date)

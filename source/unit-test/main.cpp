@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 //    picker.setDatePeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
 
     // set initial time
-    picker.setTimePeriod(QTime(0, 0, 0), QTime(23, 59, 59));
+//    picker.setTimePeriod(QTime(0, 0, 0), QTime(23, 59, 59));
 
 //    picker.setMinimumDate(QDate(2013, 4, 23));
 //    picker.setMaximumDate(QDate(2015, 9, 13));
