@@ -46,7 +46,7 @@ private:
         date_label->installEventFilter(q);
         date_label->setCursor(Qt::PointingHandCursor);
 
-        popup = new DatePickerPopup();
+        popup = new DatePickerPopup(q);
         popup->installEventFilter(q);
 
         q->setLayout(new QVBoxLayout(q));
@@ -73,6 +73,12 @@ DatePicker::DatePicker(QWidget *parent) :
     connect(d->popup, SIGNAL(dateSelected(QDate)), SLOT(setDate(QDate)));
     connect(d->popup, SIGNAL(datePeriodSelected(QDate,QDate)), SLOT(setDatePeriod(QDate,QDate)));
     connect(d->popup, SIGNAL(timePeriodSelected(QTime,QTime)), SLOT(setTimePeriod(QTime,QTime)));
+
+    d->date_begin = QDate::currentDate();
+    d->date_end = QDate::currentDate();
+
+    d->time_begin = QTime(0, 0, 0);
+    d->time_end = QTime(23, 59, 59);
 }
 
 DatePicker::~DatePicker()
@@ -322,7 +328,7 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
             return QWidget::eventFilter(object, event);
 
         if (d->popup->isVisible()) {
-            d->popup->close();
+            d->popup->hide();
             emit editingFinished();
         }
         else {
@@ -338,13 +344,14 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
             }
 
             d->popup->show();
-            d->popup->raise();
-            d->popup->activateWindow();
         }
     }
 
     if ((object == d->popup) && (event->type() == QEvent::Hide))
         emit editingFinished();
+
+    if ((object == d->popup) && (event->type() == QEvent::FocusOut))
+        d->popup->hide();
 
     return QWidget::eventFilter(object, event);
 }
