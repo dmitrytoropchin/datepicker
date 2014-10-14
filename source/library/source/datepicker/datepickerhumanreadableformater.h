@@ -23,6 +23,12 @@ public:
 
     QString dateToWord() const;
     void setDateToWord(const QString &word);
+
+    QString invalidDateWord() const;
+    void setInvalidDateWord(const QString &word);
+
+    QString invalidPeriodWord() const;
+    void setInvalidPeriodWord(const QString &word);
 };
 
 #endif // DATEPICKERHUMANREADABLEFORMATER_H

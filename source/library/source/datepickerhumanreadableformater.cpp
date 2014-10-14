@@ -17,6 +17,9 @@ class DatePickerHumanReadableFormaterPrivate {
     QString time_from_word;
     QString time_to_word;
 
+    QString invalid_date_word;
+    QString invalid_period_word;
+
     DatePickerHumanReadableFormaterPrivate(DatePickerHumanReadableFormater *q) :
         q_ptr(q)
     {
@@ -38,6 +41,9 @@ class DatePickerHumanReadableFormaterPrivate {
 
         time_from_word = QObject::tr("from", "time");
         time_to_word = QObject::tr("to", "time");
+
+        invalid_date_word = QObject::tr("undefined date");
+        invalid_period_word = QObject::tr("undefined period");
     }
 
     ~DatePickerHumanReadableFormaterPrivate() {}
@@ -57,6 +63,9 @@ DatePickerHumanReadableFormater::~DatePickerHumanReadableFormater()
 QString DatePickerHumanReadableFormater::format(const QDate &date) const
 {
     Q_D(const DatePickerHumanReadableFormater);
+
+    if (!date.isValid())
+        return d->invalid_date_word;
 
     QString human_readable_str;
 
@@ -85,6 +94,9 @@ QString DatePickerHumanReadableFormater::format(const QDate &date) const
 QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate &end) const
 {
     Q_D(const DatePickerHumanReadableFormater);
+
+    if (!begin.isValid() || !end.isValid())
+        return d->invalid_period_word;
 
     if (begin == end)
         return format(begin);
@@ -124,6 +136,9 @@ QString DatePickerHumanReadableFormater::format(const QDate &begin, const QDate 
 QString DatePickerHumanReadableFormater::format(const QDateTime &begin, const QDateTime &end) const
 {
     Q_D(const DatePickerHumanReadableFormater);
+
+    if (!begin.isValid() || !end.isValid())
+        return d->invalid_period_word;
 
     QString human_readable_period_str;
 
@@ -209,4 +224,28 @@ void DatePickerHumanReadableFormater::setDateToWord(const QString &word)
 {
     Q_D(DatePickerHumanReadableFormater);
     d->date_to_word = word;
+}
+
+QString DatePickerHumanReadableFormater::invalidDateWord() const
+{
+    Q_D(const DatePickerHumanReadableFormater);
+    return d->invalid_date_word;
+}
+
+void DatePickerHumanReadableFormater::setInvalidDateWord(const QString &word)
+{
+    Q_D(DatePickerHumanReadableFormater);
+    d->invalid_date_word = word;
+}
+
+QString DatePickerHumanReadableFormater::invalidPeriodWord() const
+{
+    Q_D(const DatePickerHumanReadableFormater);
+    return d->invalid_period_word;
+}
+
+void DatePickerHumanReadableFormater::setInvalidPeriodWord(const QString &word)
+{
+    Q_D(DatePickerHumanReadableFormater);
+    d->invalid_period_word = word;
 }

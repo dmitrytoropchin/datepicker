@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     Q_UNUSED(picker.label());
 
     // set initial date or period
-//    picker.setDate(QDate::currentDate());
-    picker.setDatePeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
+    picker.setDate(QDate::currentDate());
+//    picker.setDatePeriod(QDate::currentDate(), QDate::currentDate().addDays(1));
 
     // set initial time
     picker.setTimePeriod(QTime(0, 0, 0), QTime(23, 59, 59));
