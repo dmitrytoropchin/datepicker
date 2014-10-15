@@ -64,6 +64,8 @@ public slots:
     void setTimePeriod(const QTime &begin, const QTime &end);
 
     void setDateTimePeriod(const QDateTime &begin, const QDateTime &end);
+private slots:
+    void onShowPopupButtonClicked();
 private:
     bool eventFilter(QObject *object, QEvent *event);
 

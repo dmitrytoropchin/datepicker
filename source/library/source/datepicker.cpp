@@ -2,8 +2,9 @@
 #include <QDate>
 #include <QMouseEvent>
 #include <QMoveEvent>
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include "datepicker/datepickerpopup.h"
 #include "datepicker/datepickerabstractformater.h"
 #include "datepicker/datepickerhumanreadableformater.h"
@@ -20,6 +21,7 @@ class DatePickerPrivate {
     QTime time_begin;
     QTime time_end;
     QLabel *date_label;
+    QPushButton *show_popup_button;
     DatePickerPopup *popup;
     DatePickerAbstractFormater *formater;
 private:
@@ -42,16 +44,24 @@ private:
 
         date_label = new QLabel(q);
         date_label->setObjectName("datepicker_label");
+        date_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         date_label->installEventFilter(q);
-        date_label->setCursor(Qt::PointingHandCursor);
+
+        show_popup_button = new QPushButton(QIcon(":/datepicker_icons/calendar-button-icon"), QString::null, q);
+        show_popup_button->setToolTip(QObject::tr("Edit"));
+        show_popup_button->setFlat(true);
+        show_popup_button->setFixedSize(20, 20);
+        show_popup_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        show_popup_button->setCursor(Qt::PointingHandCursor);
 
         popup = new DatePickerPopup(q);
         popup->installEventFilter(q);
 
-        q->setLayout(new QVBoxLayout(q));
+        q->setLayout(new QHBoxLayout(q));
         q->layout()->setContentsMargins(QMargins());
         q->layout()->addWidget(date_label);
+        q->layout()->addWidget(show_popup_button);
 
         q->setWindowTitle(QObject::tr("Date Picker"));
     }
@@ -69,6 +79,8 @@ DatePicker::DatePicker(QWidget *parent) :
 {
     Q_D(DatePicker);
     d->initUi();
+
+    connect(d->show_popup_button, SIGNAL(clicked()), SLOT(onShowPopupButtonClicked()));
 
     connect(d->popup, SIGNAL(dateSelected(QDate)), SLOT(setDate(QDate)));
     connect(d->popup, SIGNAL(datePeriodSelected(QDate,QDate)), SLOT(setDatePeriod(QDate,QDate)));
@@ -197,7 +209,7 @@ void DatePicker::setEditable(bool on)
 {
     Q_D(DatePicker);
     d->is_editable = on;
-    d->date_label->setCursor(on ? Qt::PointingHandCursor : Qt::ArrowCursor);
+    d->show_popup_button->setVisible(on);
 }
 
 void DatePicker::setAllowedPickerTypes(DatePickerTypes picker_types)
@@ -312,6 +324,29 @@ void DatePicker::setDateTimePeriod(const QDateTime &begin, const QDateTime &end)
         d->date_label->clear();
 }
 
+void DatePicker::onShowPopupButtonClicked()
+{
+    Q_D(DatePicker);
+
+    if (!d->popup->isVisible()) {
+        d->popup->reset();
+
+        if (d->picker_type == DayType) {
+            d->popup->setDate(d->date_begin);
+        }
+        if (d->picker_type == PeriodType) {
+            d->popup->setDatePeriod(d->date_begin, d->date_end);
+            if (d->popup->isTimeEditable())
+                d->popup->setTimePeriod(d->time_begin, d->time_end);
+        }
+
+        d->adjustPopupPosition();
+        d->popup->show();
+        d->popup->raise();
+        d->popup->activateWindow();
+    }
+}
+
 bool DatePicker::eventFilter(QObject *object, QEvent *event)
 {
     Q_D(DatePicker);
@@ -319,38 +354,9 @@ bool DatePicker::eventFilter(QObject *object, QEvent *event)
     if (!d->is_editable)
         return QWidget::eventFilter(object, event);
 
-    if ((object == d->date_label) && (event->type() == QEvent::MouseButtonPress)) {
-        QMouseEvent *mouse_event = dynamic_cast<QMouseEvent *>(event);
-        if (!mouse_event)
-            return QWidget::eventFilter(object, event);
-
-        if (mouse_event->button() != Qt::LeftButton)
-            return QWidget::eventFilter(object, event);
-
-        if (!d->popup->isVisible()) {
-            d->popup->reset();
-
-            if (d->picker_type == DayType) {
-                d->popup->setDate(d->date_begin);
-            }
-            if (d->picker_type == PeriodType) {
-                d->popup->setDatePeriod(d->date_begin, d->date_end);
-                if (d->popup->isTimeEditable())
-                    d->popup->setTimePeriod(d->time_begin, d->time_end);
-            }
-
-            d->popup->show();
-        }
-    }
-
     if ((object == d->popup) && (event->type() == QEvent::WindowDeactivate)) {
-        if (d->popup->isVisible())
-            d->popup->close();
-    }
-
-    if ((object == d->popup) && (event->type() == QEvent::Close)) {
-        if (d->popup->isVisible())
-            emit editingFinished();
+        d->popup->close();
+        emit editingFinished();
     }
 
     return QWidget::eventFilter(object, event);

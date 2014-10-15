@@ -72,7 +72,7 @@ class DatePickerPopupPrivate {
 
         q->setWindowTitle(QObject::tr("Date Picker"));
 
-        q->setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+        q->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::Window);
     }
 };
 
