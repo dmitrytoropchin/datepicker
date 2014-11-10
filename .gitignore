@@ -6,3 +6,4 @@ source/unit-test/.build/*
 source/library/libdatepicker.*
 source/unit-test/datepicker-test
 build/*
+CMakeLists.txt.*
