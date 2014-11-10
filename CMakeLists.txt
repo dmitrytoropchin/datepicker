@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 #SET (CMAKE_BUILD_TYPE "Debug")
 
 option(USE_QT_5 "Use Qt 5" NO)
-option(DATEPICKER_BUILD_UNIT_TEST "Build datepicker library unit test" NO)
+option(DATEPICKER_BUILD_UNIT_TEST "Build datepicker library unit test" YES)
 
 set(DATEPICKER_LIBRARY_NAME datepicker)
 set(DATEPICKER_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/library/source)
