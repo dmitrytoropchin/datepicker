@@ -5,6 +5,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QApplication>
+#include <QDesktopWidget>
 #include "datepicker/datepickerpopup.h"
 #include "datepicker/datepickerabstractformater.h"
 #include "datepicker/datepickerhumanreadableformater.h"
@@ -54,9 +56,11 @@ private:
         show_popup_button->setFixedSize(20, 20);
         show_popup_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         show_popup_button->setCursor(Qt::PointingHandCursor);
+        show_popup_button->setFocusPolicy(Qt::NoFocus);
 
         popup = new DatePickerPopup(q);
         popup->installEventFilter(q);
+        popup->adjustSize();
 
         q->setLayout(new QHBoxLayout(q));
         q->layout()->setContentsMargins(QMargins());
@@ -69,7 +73,17 @@ private:
     void adjustPopupPosition()
     {
         Q_Q(DatePicker);
-        popup->move(q->mapToGlobal(q->rect().bottomLeft()));
+
+        QRect popup_geometry = popup->geometry();
+        popup_geometry.moveTo(q->mapToGlobal(q->rect().bottomLeft()));
+        QRect screen_geometry = QApplication::desktop()->screenGeometry();
+
+        if (popup_geometry.right() > screen_geometry.right())
+            popup_geometry.moveRight(screen_geometry.right());
+        if (popup_geometry.bottom() > screen_geometry.bottom())
+            popup_geometry.moveBottom(q->mapToGlobal(q->rect().topLeft()).y());
+
+        popup->move(popup_geometry.topLeft());
     }
 };
 
