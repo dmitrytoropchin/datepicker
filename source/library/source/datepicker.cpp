@@ -76,7 +76,7 @@ private:
 
         QRect popup_geometry = popup->geometry();
         popup_geometry.moveTo(q->mapToGlobal(q->rect().bottomLeft()));
-        QRect screen_geometry = QApplication::desktop()->screenGeometry();
+        QRect screen_geometry = QApplication::desktop()->screenGeometry(q);
 
         if (popup_geometry.right() > screen_geometry.right())
             popup_geometry.moveRight(screen_geometry.right());
