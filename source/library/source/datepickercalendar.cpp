@@ -200,8 +200,9 @@ void DatePickerCalendar::setDate(const QDate &date)
     d->is_period_shown = false;
     d->is_period_begin_shown = false;
 
-    d->limitMinimum(QDate());
-    d->limitMaximum(QDate());
+    // FIXME: why?????
+//    d->limitMinimum(QDate());
+//    d->limitMaximum(QDate());
 }
 
 void DatePickerCalendar::setPeriod(const QDate &begin, const QDate &end, bool shows_begin)
